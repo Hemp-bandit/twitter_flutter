@@ -4,6 +4,16 @@ import 'package:twitter_flutter/model/item_model.dart';
 import './post_content_card.dart';
 import '../utils/network_helper.dart';
 
+//刷新状态枚举
+enum LoadingStatus {
+  // 正在加载中
+  STATUS_LOADING,
+  // 数据加载完毕
+  STATUS_COMPLETED,
+  // 空闲状态
+  STATUS_IDEL
+}
+
 class PullDownRefreshController extends StatefulWidget {
   final String categoryKey;
   PullDownRefreshController({this.categoryKey});
@@ -17,18 +27,22 @@ class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
   Future mFuture;
   ScrollController _scrollController;
   int page = 1;
-
+  //  数据源list
+  static List dataSource;
+//  加载中默认文字
+  String loadText = "加载中...";
 
 
   @override
   void initState() {
     // TODO: implement initState
+    dataSource = List();
     mFuture = HttpHelper.getItemListByCategory(page, widget.categoryKey); //初始化获取帖子信息
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels > _scrollController.position.maxScrollExtent - 20) {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         setState(() {
-          mFuture = HttpHelper.getItemListByCategory(page++, widget.categoryKey);
+          HttpHelper.getItemListByCategory(page++, widget.categoryKey).then((value) => dataSource.addAll(value));
         });
       }
     });
@@ -54,6 +68,9 @@ class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
               case ConnectionState.waiting:
                 return Center(child: CircularProgressIndicator(),);
               case ConnectionState.done:
+                if (dataSource.length == 0) {
+                  dataSource = snapshot.data;
+                }
                 return _buildListView(snapshot.data);
             }
             return null;
@@ -70,9 +87,9 @@ class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
   Widget _buildListView(List<Items> data) {
     return ListView.builder(
       controller: _scrollController,
-      itemCount: data.length,
+      itemCount: dataSource.length,
       itemBuilder: (context, index) {
-        return PostContentCard(item: data[index], username: data[index].username,);
+        return PostContentCard(item: dataSource[index],);
       },
     );
   }

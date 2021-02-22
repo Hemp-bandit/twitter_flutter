@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:twitter_flutter/model/item_model.dart';
 import 'package:twitter_flutter/model/user_info_model.dart';
 
-List<Items> saveData;
-
 class HttpHelper {
   static HttpHelper instance;
   static String token;
@@ -35,22 +33,16 @@ class HttpHelper {
   }
 
 // 根据类型分页获取帖子列表
-  static Future<List<Items>> getItemListByCategory(int page, String type) async {
+  static Future<List<Items>> getItemListByCategory(
+      int page, String type) async {
     try {
-      Response response = await Dio().get("$host/twitter/queryListByType?size=10&page=$page&type=$type");
+      Response response = await Dio()
+          .get("$host/twitter/queryListByType?size=10&page=$page&type=$type");
       // print("$host/queryList?size=10&page=1&type=$type");
 
       if (response.statusCode == 200) {
-        if (page > 1) {
-          saveData.addAll(ItemModel.fromJson(response.data).items);
-          return saveData;
-        } else {
-          if (saveData == null) {
-            saveData = ItemModel.fromJson(response.data).items;
-          }
-          print(saveData);
-          return ItemModel.fromJson(response.data).items;
-        }
+        print(ItemModel.fromJson(response.data).items.length);
+        return ItemModel.fromJson(response.data).items;
       } else {
         print(response.statusCode);
         throw Exception("StatusCode: ${response.statusCode}");
@@ -80,7 +72,8 @@ class HttpHelper {
   // 通过用户名获取用户信息
   static Future<Map> getUserInfo(String username) async {
     try {
-      Response response = await Dio().get("$host/user/queryUserInfoByName?name=$username");
+      Response response =
+          await Dio().get("$host/user/queryUserInfoByName?name=$username");
       // print("$host/user/queryUserInfoByName?name=$username");
 
       if (response.statusCode == 200) {
@@ -94,11 +87,12 @@ class HttpHelper {
       return null;
     }
   }
-  
+
 //  提交反馈内容
   static sendFeedback(String name, String feedback) async {
     try {
-      Response response = await Dio().post("$host/comment/sendMsg", data: {"name" : name, "content" : feedback});
+      Response response = await Dio().post("$host/comment/sendMsg",
+          data: {"name": name, "content": feedback});
 
       if (response.statusCode == 201) {
         return response.statusCode;
@@ -114,7 +108,8 @@ class HttpHelper {
 //  翻译
   static Future<String> translate(String text, String language) async {
     try {
-      Response response = await Dio().post("$host/translate", data: {"text" : text, "lang" : language});
+      Response response = await Dio()
+          .post("$host/translate", data: {"text": text, "lang": language});
 
       if (response.statusCode == 201) {
         return response.data['data'];
@@ -144,5 +139,4 @@ class HttpHelper {
       return null;
     }
   }
-
 }

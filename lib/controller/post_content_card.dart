@@ -5,8 +5,7 @@ import 'package:twitter_flutter/utils/network_helper.dart';
 
 class PostContentCard extends StatefulWidget {
   final Items item;
-  final String username;
-  PostContentCard({this.item, this.username});
+  PostContentCard({this.item});
 
   @override
   _PostContentCardState createState() => _PostContentCardState();
@@ -21,7 +20,7 @@ class _PostContentCardState extends State<PostContentCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    uFuture = HttpHelper.getUserInfo(widget.username);
+    uFuture = HttpHelper.getUserInfo(widget.item.username);
   }
 
   @override
@@ -43,6 +42,9 @@ class _PostContentCardState extends State<PostContentCard> {
             child: Text(
               widget.item.text,
               textAlign: TextAlign.left,
+              style: TextStyle(
+                letterSpacing: 0.25,
+              ),
             ),
           ),
           // Align(
@@ -54,12 +56,9 @@ class _PostContentCardState extends State<PostContentCard> {
           //     },
           //   ),
           // ),
+          imageWidget(widget.item.attachments),
           Padding(
-            padding: EdgeInsets.all(10.0),
-            child: imageWidget(widget.item.attachments),
-          ),
-          Padding(
-            padding: EdgeInsets.all(5.0),
+            padding: EdgeInsets.only(right: 10.0,),
             child: Align(
               alignment: Alignment.centerRight,
               child: transActionWidget(),
@@ -106,6 +105,7 @@ class _PostContentCardState extends State<PostContentCard> {
         data['name'],
         style: TextStyle(
           fontSize: 20.0,
+          letterSpacing: 0.15,
         ),
       ),
       subtitle: Text(
@@ -116,6 +116,11 @@ class _PostContentCardState extends State<PostContentCard> {
       ),
       trailing: Text(
         "from Twitter",
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 0.08,
+        ),
       ),
     );
   }
@@ -123,23 +128,29 @@ class _PostContentCardState extends State<PostContentCard> {
 //  图片Widget
   Widget imageWidget(Map data) {
     if (data != null) {
-      return FittedBox(
-        child: Row(
-          children: [
-            Image.network(
-              "http://${data['media_keys'][0]}",
-              fit: BoxFit.fill,
+      if (data['media_keys'] != null) {
+        return Padding(
+          padding: EdgeInsets.all(10.0),
+          child: FittedBox(
+            child: Row(
+              children:
+              [
+                Image.network(
+                  "http://${data['media_keys'][0]}",
+                  fit: BoxFit.fill,
+                ),
+                SizedBox(
+                  width: 5.0,
+                ),
+                // Image.network(
+                //   "http://${data['media_keys'][1]}",
+                //   fit: BoxFit.fill,
+                // ),
+              ],
             ),
-            SizedBox(
-              width: 5.0,
-            ),
-            Image.network(
-              "http://${data['media_keys'][1]}",
-              fit: BoxFit.fill,
-            ),
-          ],
-        ),
-      );
+          ),
+        );
+      }
     } else {
       return Container(
         width: 0,
@@ -173,6 +184,10 @@ class _PostContentCardState extends State<PostContentCard> {
                   child: Text(
                     snapshot.data,
                     textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 13.0,
+                    ),
                   ),
                 );
               }
@@ -184,7 +199,13 @@ class _PostContentCardState extends State<PostContentCard> {
 
   Widget transActionWidget() {
     return InkWell(
-      child: Icon(Icons.translate),
+      child: Text(
+        isShow == false ? "翻译" : "收起",
+        style: TextStyle(
+          color: Colors.lightBlueAccent,
+          fontSize: 12.0,
+        ),
+      ),
       onTap: () {
         transFuture = HttpHelper.translatePost(widget.item.twitterId);
         setState(() {
@@ -202,7 +223,8 @@ class _PostContentCardState extends State<PostContentCard> {
         Text(
           "${date.year}.${date.month}.${date.day}\t${date.hour}:${date.minute}:${date.second}",
           style: TextStyle(
-            fontSize: 13.0,
+            fontSize: 11.5,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
