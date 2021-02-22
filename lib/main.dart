@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import './controller/pull_down_refresh_controller.dart';
 import './utils/network_helper.dart';
 
+// pages
+import './controller/setting_controller.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -26,17 +29,18 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
-  HttpHelper helper = HttpHelper();
-  final tabs = ['领导人们', 'NBA', '奥运会', '黑命贵', '海外疫情', '好莱坞'];
-  TabController _tabController;
-  PageController _pageController;
+  TabController _tabController; //TabBar控制器
+  PageController _pageController; //PageView控制器
+
+  Future uFuture;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController =
-        TabController(initialIndex: 0, length: tabs.length, vsync: this);
+    uFuture = HttpHelper.getItemCategory();
+    uFuture.then((value) => _tabController = TabController(initialIndex: 0, length: value.length, vsync: this));
+    // _tabController = TabController(initialIndex: 0, length: 11, vsync: this);
     _pageController = PageController(initialPage: 0);
   }
 
@@ -44,6 +48,7 @@ class _MainPageState extends State<MainPage>
   void dispose() {
     // TODO: implement dispose
     _tabController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -51,42 +56,83 @@ class _MainPageState extends State<MainPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "海外社交聚合",
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              print("Search");
-            },
+          centerTitle: true,
+          title: Text(
+            "海外社交聚合",
           ),
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                print("Setting");
-              }),
-        ],
-        bottom: customTabBar(),
+          actions: [
+            // IconButton(
+            //   icon: Icon(Icons.search),
+            //   onPressed: () {
+            //     print("Search");
+            //   },
+            // ),
+            IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  print("Setting");
+                  // 跳转至设置页面
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingPage()),
+                  );
+                }),
+          ],
+          bottom: PreferredSize(
+            child: loadTabBar(),
+            preferredSize: Size.fromHeight(48.0),
+          )),
+      body: FutureBuilder(
+        future: uFuture,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            case ConnectionState.done:
+              return customPageView(snapshot.data);
+          }
+          return null;
+        },
       ),
-      body: customPageView(),
+    );
+  }
+
+//  通过网络请求加载TabBar
+  Widget loadTabBar() {
+    return FutureBuilder(
+      future: uFuture,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.active:
+          case ConnectionState.waiting:
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          case ConnectionState.done:
+            return customTabBar(snapshot.data);
+        }
+        return null;
+      },
     );
   }
 
   // customTabBar
-  Widget customTabBar() {
+  Widget customTabBar(Map data) {
     return TabBar(
       controller: _tabController,
       isScrollable: true,
       indicatorColor: Colors.orange,
-      tabs: tabs
+      tabs: data.keys
           .map((e) => Tab(
-                text: e,
+                text: data[e],
               ))
           .toList(),
       onTap: (tab) {
-        print(tab);
         setState(() {
           _currentIndex = tab;
           _pageController.jumpToPage(_currentIndex);
@@ -96,19 +142,21 @@ class _MainPageState extends State<MainPage>
   }
 
   // customPageView
-  Widget customPageView() {
+  Widget customPageView(Map data) {
     return PageView(
       controller: _pageController,
-      children: tabs
-          .map((e) => Container(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: PullDownRefreshController(),
+      children: data.keys
+          .map(
+            (e) => Column(
+                children: [
+                  Expanded(
+                    child: PullDownRefreshController(
+                      categoryKey: e,
                     ),
-                  ],
-                ),
-              ))
+                  ),
+                ],
+            ),
+          )
           .toList(),
       onPageChanged: (position) {
         _currentIndex = position;

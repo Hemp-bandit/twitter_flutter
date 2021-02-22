@@ -5,6 +5,9 @@ import './post_content_card.dart';
 import '../utils/network_helper.dart';
 
 class PullDownRefreshController extends StatefulWidget {
+  final String categoryKey;
+  PullDownRefreshController({this.categoryKey});
+
   @override
   _PullDownRefreshControllerState createState() =>
       _PullDownRefreshControllerState();
@@ -12,12 +15,31 @@ class PullDownRefreshController extends StatefulWidget {
 
 class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
   Future mFuture;
+  ScrollController _scrollController;
+  int page = 1;
+
+
 
   @override
   void initState() {
     // TODO: implement initState
-    mFuture = HttpHelper.getItemListByPage();
+    mFuture = HttpHelper.getItemListByCategory(page, widget.categoryKey); //初始化获取帖子信息
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels > _scrollController.position.maxScrollExtent - 20) {
+        setState(() {
+          mFuture = HttpHelper.getItemListByCategory(page++, widget.categoryKey);
+        });
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -39,16 +61,18 @@ class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
         ),
         onRefresh: () async {
           setState(() {
-            print("reload");
+            mFuture = HttpHelper.getItemListByCategory(1, widget.categoryKey);
           });
         });
   }
 
-  Widget _buildListView(ItemModel data) {
+  // ListView控件
+  Widget _buildListView(List<Items> data) {
     return ListView.builder(
-      itemCount: data?.items == null ? 0 : data.items.length,
+      controller: _scrollController,
+      itemCount: data.length,
       itemBuilder: (context, index) {
-        return PostContentCard(item: data.items[index]);
+        return PostContentCard(item: data[index], username: data[index].username,);
       },
     );
   }
