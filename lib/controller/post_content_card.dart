@@ -28,7 +28,7 @@ class _PostContentCardState extends State<PostContentCard> {
     // TODO: implement dispose
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     print("referenced: ${widget.item.referenced_tweets}");
@@ -56,7 +56,11 @@ class _PostContentCardState extends State<PostContentCard> {
           //     },
           //   ),
           // ),
-          imageWidget(widget.item.attachments),
+          SizedBox(
+            // width: 300,
+            // height: 200,
+            child: imageWidget(widget.item.attachments),
+          ),
           Padding(
             padding: EdgeInsets.only(right: 10.0,),
             child: Align(
@@ -124,31 +128,19 @@ class _PostContentCardState extends State<PostContentCard> {
       ),
     );
   }
-  
+
 //  图片Widget
   Widget imageWidget(Map data) {
     if (data != null) {
       if (data['media_keys'] != null) {
-        return Padding(
+        List list = data['media_keys'];
+        return GridView.count(
+          crossAxisCount: data.length < 3 ? data.length : 3,
+          childAspectRatio: 16/9,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.all(10.0),
-          child: FittedBox(
-            child: Row(
-              children:
-              [
-                Image.network(
-                  "http://${data['media_keys'][0]}",
-                  fit: BoxFit.fill,
-                ),
-                SizedBox(
-                  width: 5.0,
-                ),
-                // Image.network(
-                //   "http://${data['media_keys'][1]}",
-                //   fit: BoxFit.fill,
-                // ),
-              ],
-            ),
-          ),
+          children: list.map((e) => FadeInImage.assetNetwork(placeholder: '', image: "http://$e", fit: BoxFit.contain,),).toList(),
         );
       }
     } else {
