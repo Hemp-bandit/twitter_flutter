@@ -57,9 +57,7 @@ class _MainPageState extends State<MainPage>
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: Text(
-            "海外社交聚合",
-          ),
+          title: Text("围ta"),
           actions: [
             // IconButton(
             //   icon: Icon(Icons.search),
