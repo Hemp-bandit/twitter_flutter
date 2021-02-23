@@ -32,17 +32,19 @@ class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
 //  加载中默认文字
   String loadText = "加载中...";
 
-
   @override
   void initState() {
     // TODO: implement initState
     dataSource = List();
-    mFuture = HttpHelper.getItemListByCategory(page, widget.categoryKey); //初始化获取帖子信息
+    mFuture =
+        HttpHelper.getItemListByCategory(page, widget.categoryKey); //初始化获取帖子信息
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels >
+          _scrollController.position.maxScrollExtent - 10) {
         setState(() {
-          HttpHelper.getItemListByCategory(page++, widget.categoryKey).then((value) => dataSource.addAll(value));
+          HttpHelper.getItemListByCategory(page++, widget.categoryKey)
+              .then((value) => dataSource.addAll(value));
         });
       }
     });
@@ -66,7 +68,9 @@ class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
               case ConnectionState.none:
               case ConnectionState.active:
               case ConnectionState.waiting:
-                return Center(child: CircularProgressIndicator(),);
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
               case ConnectionState.done:
                 if (dataSource.length == 0) {
                   dataSource = snapshot.data;
@@ -89,8 +93,24 @@ class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
       controller: _scrollController,
       itemCount: dataSource.length,
       itemBuilder: (context, index) {
-        return PostContentCard(item: dataSource[index],);
+        return PostContentCard(
+          item: dataSource[index],
+        );
       },
+    );
+  }
+
+  Widget buildSnackBar() {
+    return SnackBar(
+      content: Text("已显示全部数据"),
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(5.0),
+          topRight: Radius.circular(5.0),
+        ),
+      ),
+      duration: Duration(seconds: 1),
     );
   }
 }

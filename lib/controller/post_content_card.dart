@@ -90,7 +90,33 @@ class _PostContentCardState extends State<PostContentCard> {
             return Center(child: CircularProgressIndicator(),);
           case ConnectionState.done:
             if (snapshot.data == null) {
-              return Text("暂无数据");
+              //当获取的data数据为空，也就是无法查询到用户信息时，显示此控件
+              return ListTile(
+                leading: CircleAvatar(
+                  child: Text("测试"),
+                ),
+                title: Text(
+                  "路人甲",
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    letterSpacing: 0.15,
+                  ),
+                ),
+                subtitle: Text(
+                  "测试用户",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                  ),
+                ),
+                trailing: Text(
+                  "from Twitter",
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.08,
+                  ),
+                ),
+              );
             } else {
               return accountInfoListTile(snapshot.data);
             }
@@ -108,12 +134,12 @@ class _PostContentCardState extends State<PostContentCard> {
       title: Text(
         data['name'],
         style: TextStyle(
-          fontSize: 20.0,
+          fontSize: 18.0,
           letterSpacing: 0.15,
         ),
       ),
       subtitle: Text(
-        "@${data['username']}",
+        "@${data['description']}",
         style: TextStyle(
           fontSize: 14.0,
         ),
