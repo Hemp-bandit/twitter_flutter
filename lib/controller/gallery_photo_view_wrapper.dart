@@ -113,6 +113,9 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
     final GalleryExampleItem item = widget.galleryItems[index];
     return PhotoViewGalleryPageOptions(
       imageProvider: NetworkImage(item.resource),
+      // initialScale: PhotoViewComputedScale.contained,
+      // minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
+      //   maxScale: PhotoViewComputedScale.covered * 1.1,
       heroAttributes: PhotoViewHeroAttributes(tag: item.id),
       onTapUp: (BuildContext context, TapUpDetails details,
           PhotoViewControllerValue controllerValue) {
@@ -142,13 +145,15 @@ class GalleryExampleItemThumbnail extends StatelessWidget {
         onTap: onTap,
         child: Hero(
           tag: galleryExampleItem.id,
-          child:Image.network(galleryExampleItem.resource,fit: BoxFit.cover,),
+          child: Image.network(
+            galleryExampleItem.resource,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
   }
 }
-
 
 //Model
 class GalleryExampleItem {

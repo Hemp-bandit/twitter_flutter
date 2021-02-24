@@ -162,18 +162,20 @@ class _PostContentCardState extends State<PostContentCard> {
         List list = List();
         for (int x = 0; x < data['media_keys'].length; x++) {
           GalleryExampleItem item = GalleryExampleItem();
-          item.id = x.toString();
+          item.id = data['media_keys'][x];
           item.resource = "http://${data['media_keys'][x]}";
           list.add(item);
         }
-        print("http://${list[0].resource}");
+        // print("http://${list[0].resource}");
         return GridView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemCount: list.length,
+          padding: EdgeInsets.all(10.0),
           itemBuilder: (context, index) {
+            print(list.length < 2 ? 123 : 456);
             return AspectRatio(
-              aspectRatio: 1,
+              aspectRatio: list.length < 2 ? 16/9 : 1,
               child: GalleryExampleItemThumbnail(
                 galleryExampleItem: list[index],
                 onTap: () {
@@ -182,14 +184,14 @@ class _PostContentCardState extends State<PostContentCard> {
                             galleryItems: list,
                             backgroundDecoration:
                                 const BoxDecoration(color: Colors.black),
-                        initialIndex: index,
+                            initialIndex: index,
                           )));
                 },
               ),
             );
           },
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: list.length < 3 ? list.length : 3,
+            crossAxisCount: list.length == 1 ? 2 : 3,
             mainAxisSpacing: 8.0,
             crossAxisSpacing: 8.0,
           ),
