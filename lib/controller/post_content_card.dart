@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_flutter/controller/gallery_photo_view_wrapper.dart';
 import 'package:twitter_flutter/model/item_model.dart';
 import 'package:twitter_flutter/model/user_info_model.dart';
 import 'package:twitter_flutter/utils/network_helper.dart';
@@ -31,8 +32,6 @@ class _PostContentCardState extends State<PostContentCard> {
 
   @override
   Widget build(BuildContext context) {
-    print("referenced: ${widget.item.referenced_tweets}");
-    print("attachments: ${widget.item.attachments}");
     return Card(
       child: Column(
         children: [
@@ -56,9 +55,11 @@ class _PostContentCardState extends State<PostContentCard> {
           //     },
           //   ),
           // ),
-            imageWidget(widget.item.attachments),
+          imageWidget(widget.item.attachments),
           Padding(
-            padding: EdgeInsets.only(right: 10.0,),
+            padding: EdgeInsets.only(
+              right: 10.0,
+            ),
             child: Align(
               alignment: Alignment.centerRight,
               child: transActionWidget(),
@@ -83,7 +84,9 @@ class _PostContentCardState extends State<PostContentCard> {
           case ConnectionState.none:
           case ConnectionState.active:
           case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator(),);
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           case ConnectionState.done:
             if (snapshot.data == null) {
               //当获取的data数据为空，也就是无法查询到用户信息时，显示此控件
@@ -118,7 +121,8 @@ class _PostContentCardState extends State<PostContentCard> {
             }
         }
         return null;
-      },);
+      },
+    );
   }
 
 //  用户信息ListTile
@@ -155,14 +159,40 @@ class _PostContentCardState extends State<PostContentCard> {
   Widget imageWidget(Map data) {
     if (data != null) {
       if (data['media_keys'] != null) {
-        List list = data['media_keys'];
-        return GridView.count(
-          crossAxisCount: data.length < 3 ? data.length : 3,
-          childAspectRatio: 16/9,
+        List list = List();
+        for (int x = 0; x < data['media_keys'].length; x++) {
+          GalleryExampleItem item = GalleryExampleItem();
+          item.id = x.toString();
+          item.resource = "http://${data['media_keys'][x]}";
+          list.add(item);
+        }
+        print("http://${list[0].resource}");
+        return GridView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.all(10.0),
-          children: list.map((e) => FadeInImage.assetNetwork(placeholder: '', image: "http://$e", fit: BoxFit.contain,),).toList(),
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            return AspectRatio(
+              aspectRatio: 1,
+              child: GalleryExampleItemThumbnail(
+                galleryExampleItem: list[index],
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => GalleryPhotoViewWrapper(
+                            galleryItems: list,
+                            backgroundDecoration:
+                                const BoxDecoration(color: Colors.black),
+                        initialIndex: index,
+                          )));
+                },
+              ),
+            );
+          },
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: list.length < 3 ? list.length : 3,
+            mainAxisSpacing: 8.0,
+            crossAxisSpacing: 8.0,
+          ),
         );
       }
     } else {
@@ -187,7 +217,9 @@ class _PostContentCardState extends State<PostContentCard> {
             case ConnectionState.none:
             case ConnectionState.active:
             case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator(),);
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             case ConnectionState.done:
               if (snapshot.data == null) {
                 return Text("暂无数据");
@@ -207,7 +239,8 @@ class _PostContentCardState extends State<PostContentCard> {
               }
           }
           return null;
-        },);
+        },
+      );
     }
   }
 
@@ -244,5 +277,4 @@ class _PostContentCardState extends State<PostContentCard> {
       ],
     );
   }
-
 }

@@ -41,7 +41,6 @@ class HttpHelper {
       // print("$host/queryList?size=10&page=1&type=$type");
 
       if (response.statusCode == 200) {
-        print(ItemModel.fromJson(response.data).items.length);
         return ItemModel.fromJson(response.data).items;
       } else {
         print(response.statusCode);

@@ -3,6 +3,7 @@ import './controller/pull_down_refresh_controller.dart';
 import './utils/network_helper.dart';
 
 // pages
+import 'package:twitter_flutter/controller/splash_page.dart';
 import './controller/setting_controller.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.blue,
       ),
-      home: MainPage(),
+      home: SplashPage(),
     );
   }
 }
