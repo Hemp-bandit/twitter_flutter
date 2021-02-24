@@ -56,11 +56,7 @@ class _PostContentCardState extends State<PostContentCard> {
           //     },
           //   ),
           // ),
-          SizedBox(
-            // width: 300,
-            // height: 200,
-            child: imageWidget(widget.item.attachments),
-          ),
+            imageWidget(widget.item.attachments),
           Padding(
             padding: EdgeInsets.only(right: 10.0,),
             child: Align(
