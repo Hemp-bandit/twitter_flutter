@@ -2,12 +2,36 @@ import 'package:flutter/material.dart';
 import './controller/pull_down_refresh_controller.dart';
 import './utils/network_helper.dart';
 
+// catcher
+import 'package:catcher/catcher.dart';
+
 // pages
 import 'package:twitter_flutter/controller/splash_page.dart';
 import './controller/setting_controller.dart';
 
 void main() {
-  runApp(MyApp());
+  // Debug配置
+  CatcherOptions debugOptions =
+      CatcherOptions(SilentReportMode(), [ConsoleHandler()]);
+
+  // Release配置
+  CatcherOptions releaseOptions = CatcherOptions(SilentReportMode(), [
+    EmailManualHandler(["1208879283@qq.com"], emailTitle: "围Ta异常上报", printLogs: true),
+  ]);
+
+  //Profile配置
+  CatcherOptions profileOptions = CatcherOptions(
+      SilentReportMode(), [ConsoleHandler(), ToastHandler()],
+      handlerTimeout: 10000);
+
+  Catcher(
+    runAppFunction: () {
+      runApp(MyApp());
+    },
+    debugConfig: debugOptions,
+    releaseConfig: releaseOptions,
+    profileConfig: profileOptions,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -40,7 +64,8 @@ class _MainPageState extends State<MainPage>
     // TODO: implement initState
     super.initState();
     uFuture = HttpHelper.getItemCategory();
-    uFuture.then((value) => _tabController = TabController(initialIndex: 0, length: value.length, vsync: this));
+    uFuture.then((value) => _tabController =
+        TabController(initialIndex: 0, length: value.length, vsync: this));
     // _tabController = TabController(initialIndex: 0, length: 11, vsync: this);
     _pageController = PageController(initialPage: 0);
   }
@@ -147,13 +172,13 @@ class _MainPageState extends State<MainPage>
       children: data.keys
           .map(
             (e) => Column(
-                children: [
-                  Expanded(
-                    child: PullDownRefreshController(
-                      categoryKey: e,
-                    ),
+              children: [
+                Expanded(
+                  child: PullDownRefreshController(
+                    categoryKey: e,
                   ),
-                ],
+                ),
+              ],
             ),
           )
           .toList(),

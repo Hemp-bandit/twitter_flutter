@@ -36,8 +36,9 @@ class _PostContentCardState extends State<PostContentCard> {
       child: Column(
         children: [
           accountInfoWidget(),
-          Padding(
-            padding: EdgeInsets.all(10.0),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.all(10.0),
             child: Text(
               widget.item.text,
               textAlign: TextAlign.left,
@@ -139,7 +140,7 @@ class _PostContentCardState extends State<PostContentCard> {
         ),
       ),
       subtitle: Text(
-        "@${data['description']}",
+        data['description'],
         style: TextStyle(
           fontSize: 14.0,
         ),
@@ -173,7 +174,6 @@ class _PostContentCardState extends State<PostContentCard> {
           itemCount: list.length,
           padding: EdgeInsets.all(10.0),
           itemBuilder: (context, index) {
-            print(list.length < 2 ? 123 : 456);
             return AspectRatio(
               aspectRatio: list.length < 2 ? 16/9 : 1,
               child: GalleryExampleItemThumbnail(
@@ -227,13 +227,14 @@ class _PostContentCardState extends State<PostContentCard> {
                 return Text("暂无数据");
               } else {
                 print("data: ${snapshot.data}");
-                return Padding(
-                  padding: EdgeInsets.all(10.0),
+                return Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.all(10.0),
                   child: Text(
                     snapshot.data,
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black87,
                       fontSize: 13.0,
                     ),
                   ),
