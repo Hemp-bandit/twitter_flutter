@@ -1,4 +1,4 @@
-package com.sven.twitter_flutter;
+package com.xiaomi.weita;
 
 import io.flutter.embedding.android.FlutterActivity;
 
