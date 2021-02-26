@@ -230,6 +230,11 @@ class _PostContentCardState extends State<PostContentCard> {
                 return Container(
                   width: double.infinity,
                   margin: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
                   child: Text(
                     snapshot.data,
                     textAlign: TextAlign.left,
