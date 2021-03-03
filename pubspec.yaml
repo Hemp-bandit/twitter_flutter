@@ -34,6 +34,8 @@ dependencies:
   path_provider: ^1.6.27
   photo_view: ^0.10.3
   catcher: ^0.4.2
+  share: ^0.6.5+4
+  fluwx: ^2.6.2
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +55,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/splash.jpeg
+    - assets/images/share_icon/share_wechat.png
+    - assets/images/share_icon/share_pyq.png
+    - assets/images/platform/facebook.png
+    - assets/images/platform/instagram.png
+    - assets/images/platform/twitter.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

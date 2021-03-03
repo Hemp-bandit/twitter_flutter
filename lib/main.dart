@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_flutter/controller/widgets/progress_indicator_widget.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import './controller/pull_down_refresh_controller.dart';
 import './utils/network_helper.dart';
 
@@ -63,6 +65,12 @@ class _MainPageState extends State<MainPage>
   void initState() {
     // TODO: implement initState
     super.initState();
+    fluwx.registerWxApi(
+      appId: "wxd930ea5d5a228f5f",
+      doOnAndroid: true,
+      doOnIOS: true,
+      // universalLink: "",
+    );
     uFuture = HttpHelper.getItemCategory();
     uFuture.then((value) => _tabController =
         TabController(initialIndex: 0, length: value.length, vsync: this));
@@ -84,6 +92,7 @@ class _MainPageState extends State<MainPage>
       appBar: AppBar(
           centerTitle: true,
           title: Text("围ta"),
+          elevation: 0,
           actions: [
             // IconButton(
             //   icon: Icon(Icons.search),
@@ -114,7 +123,7 @@ class _MainPageState extends State<MainPage>
             case ConnectionState.active:
             case ConnectionState.waiting:
               return Center(
-                child: CircularProgressIndicator(),
+                child: loadingProgressIndicator(),
               );
             case ConnectionState.done:
               return customPageView(snapshot.data);
@@ -147,21 +156,33 @@ class _MainPageState extends State<MainPage>
 
   // customTabBar
   Widget customTabBar(Map data) {
-    return TabBar(
-      controller: _tabController,
-      isScrollable: true,
-      indicatorColor: Colors.orange,
-      tabs: data.keys
-          .map((e) => Tab(
-                text: data[e],
-              ))
-          .toList(),
-      onTap: (tab) {
-        setState(() {
-          _currentIndex = tab;
-          _pageController.jumpToPage(_currentIndex);
-        });
-      },
+    return Material(
+      color: Colors.white,
+      child: TabBar(
+        controller: _tabController,
+        isScrollable: true,
+        unselectedLabelColor: Colors.black54,
+        unselectedLabelStyle: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.bold,
+        ),
+        labelColor: Colors.black,
+        labelStyle: TextStyle(
+          fontSize: 15.0,
+          fontWeight: FontWeight.bold,
+        ),
+        tabs: data.keys
+            .map((e) => Tab(
+          text: data[e],
+        ))
+            .toList(),
+        onTap: (tab) {
+          setState(() {
+            _currentIndex = tab;
+            _pageController.jumpToPage(_currentIndex);
+          });
+        },
+      ),
     );
   }
 
