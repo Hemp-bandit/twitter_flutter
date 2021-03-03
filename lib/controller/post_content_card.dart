@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_flutter/controller/gallery_photo_view_wrapper.dart';
+import 'package:twitter_flutter/controller/widgets/referenced_tweet.dart';
 import 'package:twitter_flutter/model/item_model.dart';
 import 'package:twitter_flutter/model/user_info_model.dart';
 import 'package:twitter_flutter/utils/network_helper.dart';
+import 'package:twitter_flutter/controller/widgets/progress_indicator_widget.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:twitter_flutter/controller/widgets/shared_widget.dart';
 
 class PostContentCard extends StatefulWidget {
   final Items item;
@@ -35,18 +39,12 @@ class _PostContentCardState extends State<PostContentCard> {
     return Card(
       child: Column(
         children: [
+          // 账户信息
           accountInfoWidget(),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.all(10.0),
-            child: Text(
-              widget.item.text,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                letterSpacing: 0.25,
-              ),
-            ),
-          ),
+          // 帖子信息
+          contentText(widget.item.text),
+          // 被回复信息
+          ReferencedWidget(dataSource: widget.item.referenced_tweets),
           // Align(
           //   alignment: Alignment.centerRight,
           //   child: InkWell(
@@ -56,7 +54,9 @@ class _PostContentCardState extends State<PostContentCard> {
           //     },
           //   ),
           // ),
+          // 图片内容
           imageWidget(widget.item.attachments),
+          // 翻译按钮
           Padding(
             padding: EdgeInsets.only(
               right: 10.0,
@@ -66,7 +66,9 @@ class _PostContentCardState extends State<PostContentCard> {
               child: transActionWidget(),
             ),
           ),
+          // 翻译内容
           translateWidget(isShow, widget.item.lang),
+          // 底部内容
           Padding(
             padding: EdgeInsets.all(10.0),
             child: footerWidget(),
@@ -86,7 +88,7 @@ class _PostContentCardState extends State<PostContentCard> {
           case ConnectionState.active:
           case ConnectionState.waiting:
             return Center(
-              child: CircularProgressIndicator(),
+              child: loadingProgressIndicator(),
             );
           case ConnectionState.done:
             if (snapshot.data == null) {
@@ -124,6 +126,44 @@ class _PostContentCardState extends State<PostContentCard> {
         return null;
       },
     );
+  }
+
+//  用户帖子内容
+  Widget contentText(String text) {
+    List contentList = text.split(' ');
+    if (contentList.first == "RT") {
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.all(10.0),
+        child: RichText(
+          textAlign: TextAlign.start,
+          text: TextSpan(
+            text: "Return: ",
+            style: TextStyle(color: Colors.blue),
+            children: [
+              TextSpan(
+                text: text.replaceAll("RT ", ""),
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.all(10.0),
+        child: Text(
+          text,
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            letterSpacing: 0.25,
+          ),
+        ),
+      );
+    }
   }
 
 //  用户信息ListTile
@@ -175,7 +215,7 @@ class _PostContentCardState extends State<PostContentCard> {
           padding: EdgeInsets.all(10.0),
           itemBuilder: (context, index) {
             return AspectRatio(
-              aspectRatio: list.length < 2 ? 16/9 : 1,
+              aspectRatio: list.length < 2 ? 16 / 9 : 1,
               child: GalleryExampleItemThumbnail(
                 galleryExampleItem: list[index],
                 onTap: () {
@@ -205,6 +245,7 @@ class _PostContentCardState extends State<PostContentCard> {
     }
   }
 
+//  显示翻译结果
   Widget translateWidget(bool show, String lang) {
     if (show == false || lang == 'zh') {
       return Container(
@@ -220,13 +261,13 @@ class _PostContentCardState extends State<PostContentCard> {
             case ConnectionState.active:
             case ConnectionState.waiting:
               return Center(
-                child: CircularProgressIndicator(),
+                child: loadingProgressIndicator(),
               );
             case ConnectionState.done:
               if (snapshot.data == null) {
                 return Text("暂无数据");
               } else {
-                print("data: ${snapshot.data}");
+                // print("data: ${snapshot.data}");
                 return Container(
                   width: double.infinity,
                   margin: EdgeInsets.all(10.0),
@@ -271,18 +312,110 @@ class _PostContentCardState extends State<PostContentCard> {
   }
 
   Widget footerWidget() {
-    DateTime date = DateTime.parse(widget.item.created);
+    DateTime date = DateTime.parse(widget.item.created); //获取发帖时间
+    DateTime now = DateTime.now();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "${date.year}.${date.month}.${date.day}\t${date.hour}:${date.minute}:${date.second}",
+          getTheTimeInterval(date, now),
           style: TextStyle(
-            fontSize: 11.5,
+            fontSize: 13,
             fontWeight: FontWeight.w500,
           ),
         ),
+        InkWell(
+          child: Icon(
+            Icons.ios_share,
+            size: 20.0,
+          ),
+          onTap: () {
+            showModalBottomSheet(
+                context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15.0),
+                    topRight: Radius.circular(15.0),
+                  ),
+                ),
+                builder: (context) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: ListView(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text(
+                              "分享方式",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          leading: Image.asset(
+                            'assets/images/share_icon/share_wechat.png',
+                            scale: 5.0,
+                          ),
+                          title: Text("分享到微信"),
+                          onTap: () {
+                            fluwx
+                                .shareToWeChat(fluwx.WeChatShareWebPageModel(
+                                  'https://apps.apple.com/cn/app/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80/id989673964',
+                                  title: '围Ta',
+                                  description: widget.item.text,
+                                  thumbnail: fluwx.WeChatImage.network(
+                                      'https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/53/86/cb/5386cb18-2c26-c11d-9cd6-2e68ee96a71a/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-85-220.png/230x0w.webp 1x, https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/53/86/cb/5386cb18-2c26-c11d-9cd6-2e68ee96a71a/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-85-220.png/460x0w.webp 2x'),
+                                  scene: fluwx.WeChatScene.SESSION,
+                                ))
+                                .then((value) => print(value));
+                          },
+                        ),
+                        ListTile(
+                          leading: Image.asset(
+                            'assets/images/share_icon/share_pyq.png',
+                            scale: 5.0,
+                          ),
+                          title: Text("分享到朋友圈"),
+                          onTap: () {
+                            fluwx
+                                .shareToWeChat(fluwx.WeChatShareWebPageModel(
+                                  'https://apps.apple.com/cn/app/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80/id989673964',
+                                  title: '围Ta',
+                                  description: widget.item.text,
+                                  thumbnail: fluwx.WeChatImage.network(
+                                      'https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/53/86/cb/5386cb18-2c26-c11d-9cd6-2e68ee96a71a/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-85-220.png/230x0w.webp 1x, https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/53/86/cb/5386cb18-2c26-c11d-9cd6-2e68ee96a71a/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-85-220.png/460x0w.webp 2x'),
+                                  scene: fluwx.WeChatScene.TIMELINE,
+                                ))
+                                .then((value) => print(value));
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          },
+        ),
       ],
     );
+  }
+
+//  判断相隔时间
+  String getTheTimeInterval(DateTime startTime, DateTime endTime) {
+    Duration intervalTime = endTime.difference(startTime);
+    if (intervalTime.inSeconds < 60) {
+      return "${intervalTime.inSeconds}秒钟前";
+    } else if (intervalTime.inMinutes < 60) {
+      return "${intervalTime.inMinutes}分钟前";
+    } else if (intervalTime.inHours < 60) {
+      return "${intervalTime.inHours}小时前";
+    } else if (intervalTime.inDays < 30) {
+      return "${intervalTime.inDays}天前";
+    } else {
+      return "${intervalTime.inDays / 30}个月前";
+    }
   }
 }

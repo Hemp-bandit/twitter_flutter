@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:twitter_flutter/controller/widgets/progress_indicator_widget.dart';
 import 'package:twitter_flutter/model/item_model.dart';
 import './post_content_card.dart';
 import '../utils/network_helper.dart';
@@ -69,7 +70,7 @@ class _PullDownRefreshControllerState extends State<PullDownRefreshController> {
               case ConnectionState.active:
               case ConnectionState.waiting:
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: loadingProgressIndicator(),
                 );
               case ConnectionState.done:
                 if (dataSource.length == 0) {
