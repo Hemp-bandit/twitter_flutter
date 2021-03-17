@@ -110,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0xFF227CFA),),
-                fixedSize: MaterialStateProperty.resolveWith((states) => Size(MediaQuery.of(context).size.width * 3 / 5, 40)),
+                minimumSize: MaterialStateProperty.resolveWith((states) => Size(MediaQuery.of(context).size.width * 3 / 5, 40)),
                 shape: MaterialStateProperty.resolveWith((states) => RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(30.0))),
                 elevation: MaterialStateProperty.resolveWith((states) => 0),
               ),

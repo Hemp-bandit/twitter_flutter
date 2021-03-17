@@ -24,17 +24,17 @@ class SaveUserData {
     phone = userInfo['phone'];
     email = userInfo['email'];
     name = userInfo['name'];
-    // List focusList = userInfo['focus'];
-    // focusList.forEach((element) {
-    //   focus.add(element.toString());
-    // });
+    List focusList = userInfo['focus'];
+    focusList.forEach((element) {
+      focus.add(element.toString());
+    });
     token = data['token'];
     await sharedPreferences.setString('id', id);
     await sharedPreferences.setString('avatar', avatar);
     await sharedPreferences.setString('phone', phone);
     await sharedPreferences.setString('email', email);
     await sharedPreferences.setString('name', name);
-    // await sharedPreferences.setStringList('focus', focus);
+    await sharedPreferences.setStringList('focus', focus);
     await sharedPreferences.setString('token', token);
   }
 

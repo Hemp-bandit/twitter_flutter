@@ -5,6 +5,7 @@ import 'package:weita_app/pages/home_page.dart';
 import 'package:weita_app/pages/category_page.dart';
 import 'package:weita_app/pages/mine_page.dart';
 import 'package:weita_app/pages/login_page.dart';
+import 'package:weita_app/utils/network_helper.dart';
 
 import 'package:weita_app/utils/save_user_data.dart';
 
@@ -22,15 +23,14 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     // TODO: implement initState
     getTheToken();
+    print("tokenMain: $token");
     super.initState();
     _pageController = PageController(initialPage: _currentIndex);
   }
 
   Future getTheToken() async {
     token = await SaveUserData.getToken();
-    // if (token == null) {
-    //   showLoginWidget(context);
-    // }
+    HttpHelper.userToken = token;
   }
 
   @override

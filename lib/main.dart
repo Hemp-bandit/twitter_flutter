@@ -6,17 +6,20 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // controller
-import 'package:weita_app/pages/home_page.dart';
-import 'package:weita_app/pages/category_page.dart';
-import 'package:weita_app/pages/mine_page.dart';
 import 'package:weita_app/pages/login_page.dart';
 import 'package:weita_app/pages/main_page.dart';
+import 'package:weita_app/utils/network_helper.dart';
+import 'package:weita_app/pages/splash_page.dart';
 
 // widgets
 import 'package:weita_app/widgets/login_dialog.dart';
 
 // utils
 import 'package:weita_app/utils/save_user_data.dart';
+
+// provider
+import 'package:provider/provider.dart';
+import 'provide/token_model.dart';
 
 void main() {
   // Debug配置
@@ -47,22 +50,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String token;
-    Widget _defaultPage = LoginPage();
-    Future checkIsLogin() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      token = prefs.getString('token');
-      print("token: $token");
-      if (token != null || token != "") {
-        _defaultPage = MainPage();
-      } else {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
-      }
-    }
-    checkIsLogin();
-    return MaterialApp(
-      home: _defaultPage,
-      builder: EasyLoading.init(),
-    );
+      return MaterialApp(
+        home: SplashPage(),
+        builder: EasyLoading.init(),
+      );
   }
 }

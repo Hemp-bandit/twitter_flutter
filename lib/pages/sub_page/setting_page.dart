@@ -74,7 +74,7 @@ class _SettingPageState extends State<SettingPage> {
                 child: Text("退出登录"),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.red),
-                  fixedSize: MaterialStateProperty.resolveWith((states) => Size(MediaQuery.of(context).size.width * 3 / 5, 40)),
+                  minimumSize: MaterialStateProperty.resolveWith((states) => Size(MediaQuery.of(context).size.width * 3 / 5, 40)),
                   shape: MaterialStateProperty.resolveWith((states) =>
                       RoundedRectangleBorder(
                           borderRadius: BorderRadiusDirectional.circular(30.0))),

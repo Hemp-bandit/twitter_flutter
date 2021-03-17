@@ -131,7 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                       .then((value) {
                     if (value['msg'] == '') {
                       SaveUserData.saveUserData(value['data']);
-                      HttpHelper.initToken(false, value['data']['token']);
+                      // HttpHelper.initToken(false, value['data']['token']);
+                      HttpHelper.userToken = value['data']['token'];
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (context) => MainPage()),
@@ -149,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
                     (states) => Color(0xFF227CFA)),
-                fixedSize: MaterialStateProperty.resolveWith((states) =>
+                minimumSize: MaterialStateProperty.resolveWith((states) =>
                     Size(MediaQuery.of(context).size.width * 3 / 5, 40)),
                 shape: MaterialStateProperty.resolveWith((states) =>
                     RoundedRectangleBorder(

@@ -1,4 +1,4 @@
-package com.marsh.weita_app;
+package com.xiaomi.weita;
 
 import io.flutter.embedding.android.FlutterActivity;
 

@@ -48,6 +48,7 @@ class HttpHelper {
 // 根据类型分页获取帖子列表
   static Future<List<Items>> getItemListByCategory(
       int page, String type) async {
+    print(userToken);
     try {
       Response response = await Dio().get(
         "$host/twitter/queryLisByType?size=10&page=$page&type=$type",
