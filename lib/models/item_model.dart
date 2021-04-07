@@ -35,7 +35,7 @@ class Items {
   User userInfo;
   Map ref_tweet;
   String lang;
-  String commentList;
+  List commentList;
 
   Items({this.id, this.text, this.text_cn, this.created, this.type, this.platform, this.media_keys, this.userInfo, this.ref_tweet, this.lang, this.commentList});
 
@@ -50,7 +50,7 @@ class Items {
     userInfo = User.fromJson(json['userInfo']);
     ref_tweet = json['ref_tweet'];
     lang = json['lang'];
-    commentList == null ? 0.toString() : json['commentList'].length.toString();
+    commentList = json['commentList'];
   }
 
   Map<String, dynamic> toJson() {
@@ -65,9 +65,7 @@ class Items {
     data['userInfo'] = this.userInfo.toJson();
     data['ref_tweet'] = this.ref_tweet;
     data['lang'] = this.lang;
-    if (this.commentList != null) {
-      data['commentList'] = this.commentList;
-    }
+    data['commentList'] = this.commentList;
     return data;
   }
 }

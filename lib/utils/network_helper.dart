@@ -8,14 +8,7 @@ class HttpHelper {
   static String userToken;
   static Dio _dio;
   Options _options;
-  static const String host = "http://175.27.165.117/tapi";
-
-  static HttpHelper getInstance() {
-    if (instance == null) {
-      instance = HttpHelper();
-    }
-    return instance;
-  }
+  static const String host = "http://weita.online/tapi";
 
 //  header
   static Map<String, dynamic> header = {'token': userToken};
@@ -48,15 +41,15 @@ class HttpHelper {
 // 根据类型分页获取帖子列表
   static Future<List<Items>> getItemListByCategory(
       int page, String type) async {
-    print(userToken);
     try {
       Response response = await Dio().get(
         "$host/twitter/queryLisByType?size=10&page=$page&type=$type",
         options: Options(headers: header),
       );
-      // print("$host/queryList?size=10&page=1&type=$type");
+      print("$host/queryList?size=10&page=1&type=$type");
 
       if (response.statusCode == 200) {
+        print(response.data);
         return ItemModel.fromJson(response.data).items;
       } else {
         print(response.statusCode);
@@ -219,6 +212,44 @@ class HttpHelper {
     }
   }
 
+//  通过token登录
+  static Future loginWithToken(String token) async {
+    try {
+      Response response = await Dio()
+          .post("$host/user/loginWithToken", options: Options(headers: header));
+      print(response.data);
+
+      if (response.statusCode == 201) {
+        return response.data;
+      } else {
+        print(response.statusCode);
+        throw Exception("StatusCode: ${response.statusCode}");
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+//  登出账户
+  static Future logOut(String token) async {
+    try {
+      Response response = await Dio()
+          .post("$host/user/logOut", options: Options(headers: header));
+      print(response.data);
+
+      if (response.statusCode == 201) {
+        return response.data;
+      } else {
+        print(response.statusCode);
+        throw Exception("StatusCode: ${response.statusCode}");
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
 //  发送评论
   static Future commentTwee(String id, String content, String userId, String commentId) async {
     try {
@@ -258,6 +289,38 @@ class HttpHelper {
         print(response.statusCode);
         throw Exception("StatusCode: ${response.statusCode}");
       }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+//  关注用户
+  static Future focusUser(String weUserId, String twitterId) async {
+    try {
+      Response response = await Dio().post("$host/user/focusUser", data: {"weUserId" : weUserId, "twitterId" : twitterId}, options: Options(headers: header));
+      print(response.data);
+      return response.data['msg'];
+    }  catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+//  查询关注列表
+  static Future queryFocusList(String userId) async {
+    try {
+      Response response = await Dio().get("$host/user/queryFocusList?id=$userId", options: Options(headers: header));
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+//  上传用户头像
+  static Future updateUserAvatar() async {
+    try {
+      Response response = await Dio().post("$host/user/updateUserAvatar", options: Options(headers: header));
     } catch (e) {
       print(e);
       return null;

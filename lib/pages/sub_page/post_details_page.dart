@@ -77,7 +77,6 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 child: loadingProgressIndicator(),
               );
             case ConnectionState.done:
-              print("snapshot.data: ${snapshot.data}");
               return contentWidget(snapshot.data);
           }
           return null;
@@ -88,7 +87,6 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
   }
 
   Widget contentWidget(List<Comment> comments) {
-    print("comments: $comments");
     return Container(
       padding: EdgeInsets.all(10.0),
       child: CustomScrollView(
@@ -115,7 +113,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
           return InkWell(
             child: userCommentWidget(comments[index]),
             onTap: () {
-              print(comments[index].id);
+              // print(comments[index].id);
               commentId = comments[index].id; //commentId
               setState(() {
                 hintText = "回复${comments[index].userInfo['name']}";
@@ -171,8 +169,8 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             onPressed: () {
-              print(
-                  "id: $id\ncontent: ${_commentController.text}\nuserId: $userId\ncommentId: $commentId");
+              // print(
+              //     "id: $id\ncontent: ${_commentController.text}\nuserId: $userId\ncommentId: $commentId");
               if (_commentController.text.trim().isEmpty) {
                 EasyLoading.showToast('回复内容不能为空',
                     duration: Duration(seconds: 1));
@@ -184,8 +182,8 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                         duration: Duration(seconds: 1)));
                 _commentController.clear();
                 userFocusNode.unfocus();
+                id = widget.item.id;  //将id恢复成twitter帖子id
                 setState(() {
-                  print(123);
                   cFuture = HttpHelper.queryCommentById(widget.item.id);
                 });
               }

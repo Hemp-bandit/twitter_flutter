@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/utils/shared_preference_helper.dart' as SharedHelper;
 import 'package:weita_app/pages/login_page.dart';
 
@@ -46,6 +48,13 @@ class _SettingPageState extends State<SettingPage> {
       }
     },
   ];
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +77,11 @@ class _SettingPageState extends State<SettingPage> {
               padding: EdgeInsets.all(15.0),
               child: ElevatedButton(
                 onPressed: () {
-                  SharedHelper.clear();
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                    HttpHelper.logOut(HttpHelper.userToken).then((value) => EasyLoading.showToast(value['msg'], duration: Duration(seconds: 1)));
+                    SharedHelper.clear();
+                    return LoginPage();
+                  }), (route) => false);
                 },
                 child: Text("退出登录"),
                 style: ButtonStyle(

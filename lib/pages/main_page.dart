@@ -22,8 +22,6 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     // TODO: implement initState
-    getTheToken();
-    print("tokenMain: $token");
     super.initState();
     _pageController = PageController(initialPage: _currentIndex);
   }
@@ -43,8 +41,8 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: contentPageView(),
-      bottomNavigationBar: weitaBottomNavigationBar(),
+      body: HomePage(),
+      // bottomNavigationBar: weitaBottomNavigationBar(),
     );
   }
 

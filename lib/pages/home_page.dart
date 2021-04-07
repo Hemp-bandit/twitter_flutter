@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 // widgets
 import 'package:weita_app/widgets/progress_indicator_widget.dart';
 import 'package:weita_app/widgets/post_content_widget.dart';
+import 'package:weita_app/widgets/SearchBarDelegate.dart';
+import 'package:weita_app/widgets/home/card_page.dart';
 
 // utils
 import 'package:weita_app/utils/network_helper.dart';
@@ -25,6 +28,13 @@ class _HomePageState extends State<HomePage>
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    fluwx.registerWxApi(
+      appId: "wxd930ea5d5a228f5f",
+      doOnAndroid: true,
+      // doOnIOS: true,
+    );
+
     HttpHelper.initToken(true, "");
     uFuture = HttpHelper.getItemCategory();
     uFuture.then((value) => _tabController =
@@ -48,6 +58,23 @@ class _HomePageState extends State<HomePage>
         backgroundColor: Colors.white,
         elevation: 0,
         leading: Center(child: Text("WEITA", style: TextStyle(color: Color(0xFF227CFA), fontSize: 17.0, fontWeight: FontWeight.bold),),),
+        title: GestureDetector(
+          child: Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 35.0,
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Text("搜索", style: TextStyle().copyWith(fontSize: 16.0, color: Colors.grey),),
+            ),
+          ),
+          onTap: () {
+            showSearch(context: context, delegate: SearchBarDelegate());
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -59,10 +86,10 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(38.0),
-          child: loadTabBar(),
-        ),
+        // bottom: PreferredSize(
+        //   preferredSize: Size.fromHeight(38.0),
+        //   child: loadTabBar(),
+        // ),
       ),
       body: FutureBuilder(
         future: uFuture,
@@ -85,6 +112,7 @@ class _HomePageState extends State<HomePage>
 
   //  通过网络请求加载TabBar
   Widget loadTabBar() {
+    print("tabBar: ${HttpHelper.userToken}");
     return FutureBuilder(
       future: uFuture,
       builder: (context, snapshot) {
@@ -93,7 +121,7 @@ class _HomePageState extends State<HomePage>
           case ConnectionState.active:
           case ConnectionState.waiting:
             return Center(
-              child: loadingProgressIndicator(),
+              child: Container(),
             );
           case ConnectionState.done:
             return customTabBar(snapshot.data);
@@ -146,7 +174,7 @@ class _HomePageState extends State<HomePage>
             (e) => Column(
           children: [
             Expanded(
-              child: RefreshWidget(e),
+              child: CardPage(e),
             ),
           ],
         ),

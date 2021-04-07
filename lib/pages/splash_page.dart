@@ -33,6 +33,7 @@ class _SplashPageState extends State<SplashPage>
       token = await SaveUserData.getToken();
       if (status == AnimationStatus.completed) {
         HttpHelper.userToken = token;
+        HttpHelper.loginWithToken(token);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => token == null ? LoginPage() : MainPage()),

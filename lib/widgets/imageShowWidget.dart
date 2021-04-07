@@ -19,9 +19,7 @@ Widget imageWidget(List data) {
         itemCount: list.length,
         padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
         itemBuilder: (context, index) {
-          return AspectRatio(
-            aspectRatio: list.length < 2 ? 16 / 9 : 1,
-            child: GalleryExampleItemThumbnail(
+          return GalleryExampleItemThumbnail(
               galleryExampleItem: list[index],
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -32,8 +30,7 @@ Widget imageWidget(List data) {
                       initialIndex: index,
                     )));
               },
-            ),
-          );
+            );
         },
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: list.length <= 2 ? list.length : 3,

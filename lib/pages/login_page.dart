@@ -133,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                       SaveUserData.saveUserData(value['data']);
                       // HttpHelper.initToken(false, value['data']['token']);
                       HttpHelper.userToken = value['data']['token'];
+                      print("userToken = ${HttpHelper.userToken}");
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (context) => MainPage()),
