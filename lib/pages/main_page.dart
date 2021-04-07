@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:weita_app/pages/category_page.dart';
 // controller
 import 'package:weita_app/pages/home_page.dart';
-import 'package:weita_app/pages/category_page.dart';
 import 'package:weita_app/pages/mine_page.dart';
-import 'package:weita_app/pages/login_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
-
 import 'package:weita_app/utils/save_user_data.dart';
 
 class MainPage extends StatefulWidget {
@@ -69,8 +66,7 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _currentIndex,
         selectedItemColor: Color(0xFF227CFA),
         items: itemMap.keys
-            .map((e) =>
-            BottomNavigationBarItem(
+            .map((e) => BottomNavigationBarItem(
                 icon: itemMap[e]['icon'], label: itemMap[e]['label']))
             .toList(),
         onTap: (index) {
@@ -79,4 +75,5 @@ class _MainPageState extends State<MainPage> {
             _pageController.jumpToPage(_currentIndex);
           });
         });
-  }}
+  }
+}
