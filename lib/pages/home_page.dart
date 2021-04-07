@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
-
-// widgets
-import 'package:weita_app/widgets/progress_indicator_widget.dart';
-import 'package:weita_app/widgets/post_content_widget.dart';
-import 'package:weita_app/widgets/SearchBarDelegate.dart';
-import 'package:weita_app/widgets/home/card_page.dart';
-
 // utils
 import 'package:weita_app/utils/network_helper.dart';
-import 'package:weita_app/widgets/refresh_widget.dart';
+import 'package:weita_app/widgets/SearchBarDelegate.dart';
+import 'package:weita_app/widgets/home/card_page.dart';
+// widgets
+import 'package:weita_app/widgets/progress_indicator_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,7 +22,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     fluwx.registerWxApi(
