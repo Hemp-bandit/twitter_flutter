@@ -1,7 +1,12 @@
+/*
+ * @LastEditors: wyswill
+ * @Description: 
+ * @Date: 2021-04-07 17:07:45
+ * @LastEditTime: 2021-04-25 16:42:09
+ */
 import 'package:flutter/material.dart';
-import 'package:weita_app/utils/network_helper.dart';
-import 'package:weita_app/widgets/mine/user_tile.dart';
 import 'package:weita_app/widgets/mine/user_tab.dart';
+import 'package:weita_app/widgets/mine/user_tile.dart';
 
 class MinePage extends StatefulWidget {
   @override
@@ -63,4 +68,3 @@ class _MinePageState extends State<MinePage> {
     );
   }
 }
-

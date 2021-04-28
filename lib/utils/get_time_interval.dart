@@ -18,7 +18,9 @@ String getTheTimeInterval(DateTime startTime, DateTime endTime) {
 
 String getTheDateTime(String dateTimeStr) {
   DateTime dateTime = DateTime.parse(dateTimeStr);
-  String hours = dateTime.hour < 10 ? "0${dateTime.hour}" : dateTime.hour.toString();
-  String minutes = dateTime.minute < 10 ? "0${dateTime.minute}" : dateTime.minute.toString();
+  String hours =
+      dateTime.hour < 10 ? "0${dateTime.hour}" : dateTime.hour.toString();
+  String minutes =
+      dateTime.minute < 10 ? "0${dateTime.minute}" : dateTime.minute.toString();
   return "${dateTime.year}/${dateTime.month}/${dateTime.day} $hours:$minutes";
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:weita_app/pages/main_page.dart';
 import 'package:weita_app/pages/login_page.dart';
+import 'package:weita_app/pages/main_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/utils/save_user_data.dart';
 
@@ -36,7 +36,8 @@ class _SplashPageState extends State<SplashPage>
         HttpHelper.loginWithToken(token);
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => token == null ? LoginPage() : MainPage()),
+            MaterialPageRoute(
+                builder: (context) => token == null ? LoginPage() : MainPage()),
             (route) => false);
       }
     });
