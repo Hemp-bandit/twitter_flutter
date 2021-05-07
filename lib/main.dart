@@ -22,29 +22,7 @@ import 'package:provider/provider.dart';
 import 'provide/token_model.dart';
 
 void main() {
-  // Debug配置
-  CatcherOptions debugOptions =
-      CatcherOptions(SilentReportMode(), [ConsoleHandler()]);
-
-  // Release配置
-  // CatcherOptions releaseOptions = CatcherOptions(SilentReportMode(), [
-  //   EmailManualHandler(["1208879283@qq.com"],
-  //       emailTitle: "围Ta异常上报", printLogs: true),
-  // ]);
-
-  //Profile配置
-  CatcherOptions profileOptions = CatcherOptions(
-      SilentReportMode(), [ConsoleHandler(), ToastHandler()],
-      handlerTimeout: 10000);
-
-  Catcher(
-    runAppFunction: () {
-      runApp(MyApp());
-    },
-    debugConfig: debugOptions,
-    // releaseConfig: releaseOptions,
-    profileConfig: profileOptions,
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

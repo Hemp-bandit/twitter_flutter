@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/widgets/mine/user_tile.dart';
 import 'package:weita_app/widgets/mine/user_tab.dart';
+import 'package:weita_app/pages/sub_page/mine_sub/comment_page.dart';
+import 'package:weita_app/pages/sub_page/mine_sub/favorite_page.dart';
+import 'package:weita_app/pages/sub_page/mine_sub/subscribe_page.dart';
 
 class MinePage extends StatefulWidget {
   @override
@@ -9,6 +12,22 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
+  PageController _pageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _pageController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +42,7 @@ class _MinePageState extends State<MinePage> {
           ),
           SliverToBoxAdapter(
             child: ListTile(
-              title: Text("经常访问的人"),
+              title: Text("经常访问的人", style: TextStyle(fontSize: 16.0),),
               trailing: Icon(Icons.arrow_forward_ios),
               subtitle: Container(
                 // color: Colors.grey,
@@ -57,6 +76,18 @@ class _MinePageState extends State<MinePage> {
           ),
           SliverToBoxAdapter(
             child: UserTabBar(),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 400,
+              child: PageView(
+                children: [
+                  CommentPage(),
+                  FavoritePage(),
+                  SubscribePage(),
+                ],
+              ),
+            ),
           ),
         ],
       ),

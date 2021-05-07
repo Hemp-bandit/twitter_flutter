@@ -7,10 +7,12 @@ class UserTile extends StatelessWidget {
     return Container(
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 30.0,
-            backgroundImage: NetworkImage(
-                "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2121472252,1294774723&fm=26&gp=0.jpg"),
+          Padding(padding: EdgeInsets.only(left: 19.0, right: 16.0),
+            child: CircleAvatar(
+              radius: 63.9 / 2,
+              backgroundImage: NetworkImage(
+                  "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2121472252,1294774723&fm=26&gp=0.jpg"),
+            ),
           ),
           Expanded(
             child: Column(
@@ -20,16 +22,19 @@ class UserTile extends StatelessWidget {
                 Text(
                   "布鲁布鲁克",
                   style: TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 19.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(height: 10.0),
                 Text(
                   "已加入WEITA 2934天",
                   style: TextStyle(
-                    color: Colors.black54,
+                    color: Color(0xff787878),
                     fontSize: 12.0,
                   ),
                 ),
+                SizedBox(height: 10.0),
                 Text("884关注"),
               ],
             ),

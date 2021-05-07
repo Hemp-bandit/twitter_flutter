@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:weita_app/models/item_model.dart';
 import 'package:weita_app/models/comment_model.dart';
 import 'package:weita_app/utils/save_user_data.dart';
@@ -19,6 +22,32 @@ class HttpHelper {
       userToken = await SaveUserData.getToken();
     } else {
       userToken = token;
+    }
+  }
+
+//  通过 code 获取 access_token
+  static Future getAccessTokenByCode(String code) async {
+    try {
+      Response response = await Dio().get('https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx9dbedbb3bbbf0d38&secret=7d620d4c9cfd5db8a3d93ea7becabcc2&code=$code&grant_type=authorization_code');
+      if (response.statusCode == 200) {
+        print(response.data);
+        return json.decode(response.data);
+      } else {
+        throw Exception("StatusCode: ${response.statusCode}");
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+  
+//  进行refresh_token
+  static Future refreshToken(String refreshToken) async {
+    try {
+      Response response = await Dio().get('https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=wx9dbedbb3bbbf0d38&grant_type=refresh_token&refresh_token=$refreshToken');
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 
@@ -311,6 +340,17 @@ class HttpHelper {
   static Future queryFocusList(String userId) async {
     try {
       Response response = await Dio().get("$host/user/queryFocusList?id=$userId", options: Options(headers: header));
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+//  搜索
+  static Future search(String text) async {
+    try {
+      Response response = await Dio().post("$host/twitter/search", data: {"text" : text}, options: Options(headers: header));
+      print(response.data);
     } catch (e) {
       print(e);
       return null;

@@ -48,3 +48,7 @@ android {
 flutter {
     source '../..'
 }
+
+dependencies {
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.23'
+}

@@ -7,19 +7,20 @@ import 'package:fluwx/fluwx.dart' as fluwx;
 class PostHandleButtonBar extends StatefulWidget {
   final String id;
   final List commentList;
+  final Items item;
   final bool enableComment;
   final FocusNode focusNode;
-  PostHandleButtonBar({this.id, this.commentList, this.enableComment = false, this.focusNode});
+  PostHandleButtonBar({this.id, this.commentList, this.item, this.enableComment = false, this.focusNode});
 
   @override
   _PostHandleButtonBarState createState() => _PostHandleButtonBarState();
 }
 
 class _PostHandleButtonBarState extends State<PostHandleButtonBar> {
-  Items item;
-  Future queryPostInfoById() async {
-    item = await HttpHelper.queryInfoById(widget.id);
-  }
+  // Items item;
+  // Future queryPostInfoById() async {
+  //   item = await HttpHelper.queryInfoById(widget.id);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +29,12 @@ class _PostHandleButtonBarState extends State<PostHandleButtonBar> {
       "collect" : {"icon" : Icons.favorite_border, "count" : "123", "action" : () {
         print('favorite');
       }},
-      "comment" : {"icon" : Icons.comment, "count" : widget.commentList == null ? "0" : widget.commentList.length.toString(), "action" : () {
+      "comment" : {"icon" : Icons.comment, "count" : widget.item.commentList == null ? "0" : widget.commentList.length.toString(), "action" : () {
         print('comment');
         // showLoginWidget(context);
         if (widget.enableComment == false) {
           print(widget.id);
-          queryPostInfoById().whenComplete(() => Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailsPage(item))));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailsPage(widget.item)));
         } else {
           widget.focusNode.requestFocus();
         }
@@ -76,9 +77,9 @@ class _PostHandleButtonBarState extends State<PostHandleButtonBar> {
                             .shareToWeChat(fluwx.WeChatShareWebPageModel(
                               'https://apps.apple.com/cn/app/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80/id989673964',
                               title: '围Ta',
-                              description: item.text,
+                              description: widget.item.text,
                               thumbnail: fluwx.WeChatImage.network(
-                                  'https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/53/86/cb/5386cb18-2c26-c11d-9cd6-2e68ee96a71a/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-85-220.png/230x0w.webp 1x, https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/53/86/cb/5386cb18-2c26-c11d-9cd6-2e68ee96a71a/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-85-220.png/460x0w.webp 2x'),
+                                widget.item.media_keys[0],),
                               scene: fluwx.WeChatScene.SESSION,
                             ));
                         // showLoginWidget(context);
@@ -94,7 +95,7 @@ class _PostHandleButtonBarState extends State<PostHandleButtonBar> {
                         fluwx.shareToWeChat(fluwx.WeChatShareWebPageModel(
                           'https://apps.apple.com/cn/app/%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80/id989673964',
                           title: '围Ta',
-                          description: item.text,
+                          description: widget.item.text,
                           thumbnail: fluwx.WeChatImage.network(
                               'https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/53/86/cb/5386cb18-2c26-c11d-9cd6-2e68ee96a71a/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-85-220.png/230x0w.webp 1x, https://is4-ssl.mzstatic.com/image/thumb/Purple114/v4/53/86/cb/5386cb18-2c26-c11d-9cd6-2e68ee96a71a/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-85-220.png/460x0w.webp 2x'),
                           scene: fluwx.WeChatScene.TIMELINE,
