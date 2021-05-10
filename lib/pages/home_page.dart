@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:weita_app/pages/mine_page.dart';
+
+// widgets
+import 'package:weita_app/widgets/progress_indicator_widget.dart';
+import 'package:weita_app/widgets/post_content_widget.dart';
+import 'package:weita_app/widgets/SearchBarDelegate.dart';
+import 'package:weita_app/widgets/home/card_page.dart';
+
 // utils
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/widgets/SearchBarDelegate.dart';
@@ -24,16 +32,10 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
-    fluwx.registerWxApi(
-      appId: "wxd930ea5d5a228f5f",
-      doOnAndroid: true,
-      // doOnIOS: true,
-    );
-
     HttpHelper.initToken(true, "");
-    uFuture = HttpHelper.getItemCategory();
-    uFuture.then((value) => _tabController =
-        TabController(initialIndex: 0, length: value.length, vsync: this));
+    // uFuture = HttpHelper.getItemCategory();
+    // uFuture.then((value) => _tabController =
+    //     TabController(initialIndex: 0, length: value.length, vsync: this));
     // _tabController = TabController(initialIndex: 0, length: 11, vsync: this);
     _pageController = PageController(initialPage: 0);
   }
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage>
                 borderRadius: BorderRadius.circular(20.0),
               ),
               padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Text("搜索", style: TextStyle().copyWith(fontSize: 16.0, color: Colors.grey),),
+              child: Align(alignment: Alignment.centerLeft, child: Text("搜索", style: TextStyle().copyWith(fontSize: 16.0, color: Colors.grey),),),
             ),
           ),
           onTap: () {
@@ -73,7 +75,7 @@ class _HomePageState extends State<HomePage>
         actions: [
           IconButton(
             onPressed: () {
-              print(123);
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>  MinePage()));
             },
             icon: Icon(
               Icons.menu,
@@ -86,21 +88,12 @@ class _HomePageState extends State<HomePage>
         //   child: loadTabBar(),
         // ),
       ),
-      body: FutureBuilder(
-        future: uFuture,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return Center(
-                child: loadingProgressIndicator(),
-              );
-            case ConnectionState.done:
-              return customPageView(snapshot.data);
-          }
-          return null;
-        },
+      body: Column(
+        children: [
+          Expanded(
+            child: CardPage('political'),
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weita_app/utils/network_helper.dart';
 
 class SearchBarDelegate extends SearchDelegate<String> {
   @override
@@ -10,6 +11,9 @@ class SearchBarDelegate extends SearchDelegate<String> {
     return [
       IconButton(icon: Icon(Icons.clear), onPressed: () {
         query = "";
+      }),
+      IconButton(icon: Icon(Icons.search), onPressed: () {
+        HttpHelper.search(query);
       }),
     ];
   }

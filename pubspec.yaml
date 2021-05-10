@@ -34,6 +34,7 @@ flutter:
 
   assets:
     - assets/images/splash.jpeg
+    - assets/images/icon.png
     - assets/images/share_icon/share_wechat.png
     - assets/images/share_icon/share_pyq.png
 

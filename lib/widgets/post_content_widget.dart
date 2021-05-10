@@ -45,22 +45,23 @@ class _PostContentWidgetState extends State<PostContentWidget> {
 
 //  帖子信息
   Widget postContent() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(widget.item.userInfo.qiniuUrl),
-            foregroundColor: Colors.transparent,
-          ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 10.0, left: 10.0),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(widget.item.userInfo.qiniuUrl),
+                foregroundColor: Colors.transparent,
+                radius: MediaQuery.of(context).size.width / 14,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.item.userInfo.name, //发帖用户名字
@@ -70,53 +71,143 @@ class _PostContentWidgetState extends State<PostContentWidget> {
                       fontSize: 18.0,
                     ),
                   ),
-                  subscribeButton(),
-                  Text(
-                    getTheTimeInterval(
-                        DateTime.parse(widget.item.created), DateTime.now()),
-                    style: TextStyle(
-                      color: Colors.black54,
-                    ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 2.0),
+                    child: Text(
+                      widget.item.userInfo.description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.grey[800]),
+                    ), //发帖用户身份
                   ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 2.0),
-                child: Text(
-                  "@${widget.item.userInfo.description}",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.grey[800]),
-                ), //发帖用户身份
+            ),
+            subscribeButton(),
+          ],
+        ),
+        // 时间差
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              getTheTimeInterval(
+                  DateTime.parse(widget.item.created), DateTime.now()),
+              style: TextStyle(
+                color: Colors.black54,
               ),
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  widget.item.text,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              // 翻译按钮
-              transActionWidget(),
-              // 翻译结果文本
-              transTextWidget(isShow, widget.item.lang),
-              // 图片显示
-              imageWidget(widget.item.media_keys),
-              // 帖子操作
-              PostHandleButtonBar(id: widget.item.id, commentList: widget.item.commentList,),
+            ),
+          ],
+        ),
+        Container(
+          width: double.infinity,
+          margin: EdgeInsets.only(top: widget.item.text.length > 0 ? 10 : 0),
+          child: Text(
+            widget.item.text,
+            textAlign: TextAlign.left,
+          ),
+        ),
+        // 图片显示
+        imageWidget(widget.item.media_keys),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.only(top: 10.0),
+          child: Text(
+            "来自${widget.item.platform}",
+            textAlign: TextAlign.left,
+          ),
+        ),
+        // 翻译按钮
+        transActionWidget(),
+        // 翻译结果文本
+        transTextWidget(isShow, widget.item.lang),
+        // 帖子操作
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              PostHandleButtonBar(
+                id: widget.item.id,
+                commentList: widget.item.commentList,
+                item: widget.item,
+              )
             ],
           ),
         ),
-        // Text(
-        //   getTheTimeInterval(
-        //       DateTime.parse(widget.item.created), DateTime.now()),
-        //   style: TextStyle(
-        //     color: Colors.black54,
-        //   ),
-        // ),
       ],
     );
+    //   Row(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     Padding(
+    //       padding: EdgeInsets.all(10.0),
+    //       child: CircleAvatar(
+    //         backgroundImage: NetworkImage(widget.item.userInfo.qiniuUrl),
+    //         foregroundColor: Colors.transparent,
+    //       ),
+    //     ),
+    //     Expanded(
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             children: [
+    //               Text(
+    //                 widget.item.userInfo.name, //发帖用户名字
+    //                 style: TextStyle(
+    //                   fontFamily: 'SourceHanSans',
+    //                   fontWeight: FontWeight.bold,
+    //                   fontSize: 18.0,
+    //                 ),
+    //               ),
+    //               subscribeButton(),
+    //               Text(
+    //                 getTheTimeInterval(
+    //                     DateTime.parse(widget.item.created), DateTime.now()),
+    //                 style: TextStyle(
+    //                   color: Colors.black54,
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //           Padding(
+    //             padding: EdgeInsets.only(top: 2.0),
+    //             child: Text(
+    //               "@${widget.item.userInfo.description}",
+    //               maxLines: 1,
+    //               overflow: TextOverflow.ellipsis,
+    //               style: TextStyle(color: Colors.grey[800]),
+    //             ), //发帖用户身份
+    //           ),
+    //           Container(
+    //             width: double.infinity,
+    //             margin: EdgeInsets.only(top: 10.0),
+    //             child: Text(
+    //               widget.item.text,
+    //               textAlign: TextAlign.left,
+    //             ),
+    //           ),
+    //           // 翻译按钮
+    //           transActionWidget(),
+    //           // 翻译结果文本
+    //           transTextWidget(isShow, widget.item.lang),
+    //           // 图片显示
+    //           imageWidget(widget.item.media_keys),
+    //           // 帖子操作
+    //           PostHandleButtonBar(id: widget.item.id, commentList: widget.item.commentList,),
+    //         ],
+    //       ),
+    //     ),
+    //     // Text(
+    //     //   getTheTimeInterval(
+    //     //       DateTime.parse(widget.item.created), DateTime.now()),
+    //     //   style: TextStyle(
+    //     //     color: Colors.black54,
+    //     //   ),
+    //     // ),
+    //   ],
+    // );
   }
 
 //  关注按钮
@@ -140,7 +231,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
               isFocus == false ? "关注" : "已关注",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 12.0,
+                fontSize: 14.0,
               ),
             ),
           ],
@@ -148,7 +239,8 @@ class _PostContentWidgetState extends State<PostContentWidget> {
       ),
       onTap: () {
         if (isFocus == false) {
-          HttpHelper.focusUser(userId, widget.item.userInfo.userId).then((value) {
+          HttpHelper.focusUser(userId, widget.item.userInfo.userId)
+              .then((value) {
             if (value == '关注成功') {
               setState(() {
                 isFocus = !isFocus;
@@ -157,9 +249,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
               EasyLoading.showToast(value, duration: Duration(seconds: 1));
             }
           });
-        } else {
-
-        }
+        } else {}
       },
     );
   }
@@ -178,10 +268,10 @@ class _PostContentWidgetState extends State<PostContentWidget> {
           alignment: Alignment.centerLeft,
           child: GestureDetector(
             child: Text(
-              isShow == false ? "查看翻译" : "取消翻译",
+              isShow == false ? "点击查看翻译" : "取消翻译",
               style: TextStyle(
                 color: Color(0xFF227CFA),
-                fontSize: 14.0,
+                fontSize: 18.0,
               ),
             ),
             onTap: () {

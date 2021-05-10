@@ -34,6 +34,7 @@ Widget imageWidget(List data) {
         },
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: list.length <= 2 ? list.length : 3,
+          childAspectRatio: list.length <=2 ? 16/9 : 1/1,
           mainAxisSpacing: 8.0,
           crossAxisSpacing: 8.0,
         ),

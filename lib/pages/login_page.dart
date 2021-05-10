@@ -4,6 +4,7 @@ import 'package:weita_app/pages/main_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/utils/save_user_data.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'dart:async';
 
 class LoginPage extends StatefulWidget {

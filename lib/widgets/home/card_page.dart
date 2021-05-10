@@ -23,6 +23,7 @@ class _CardPageState extends State<CardPage> {
     super.initState();
     // dataSource = List();
     // initTheDataSource();
+    print("userTokenAgain = ${HttpHelper.userToken}");
     mFuture = HttpHelper.getItemListByCategory(page, widget.categoryKey);
   }
 

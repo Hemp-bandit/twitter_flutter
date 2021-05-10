@@ -16,6 +16,11 @@ class SaveUserData {
     return token;
   }
 
+  static Future saveToken(String token) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString('token', token);
+  }
+
   static Future saveUserData(Map data) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final Map userInfo = data['userInfo'];
@@ -54,4 +59,13 @@ class SaveUserData {
       throw Exception("无法获取该类型");
     }
   }
+}
+
+class WechatUserInfo {
+  static String accessToken;
+  static int expiresIn;
+  static String refreshToken;
+  static String openid;
+  static String scope;
+  static String unionId;
 }

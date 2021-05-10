@@ -1,9 +1,17 @@
+/*
+ * @LastEditors: wyswill
+ * @Description: 
+ * @Date: 2021-05-10 10:52:41
+ * @LastEditTime: 2021-05-10 10:54:39
+ */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:weita_app/pages/login_page.dart';
-import 'package:weita_app/pages/main_page.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:weita_app/pages/wechat_login_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/utils/save_user_data.dart';
+
+import 'main_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -17,10 +25,16 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   void initState() {
-    // TODO: implement initState
     // 启动的时候将屏幕设置成全屏模式
     SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
+
+    fluwx.registerWxApi(
+      appId: "wx9dbedbb3bbbf0d38",
+      doOnAndroid: true,
+      // doOnIOS: true,
+    );
+
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 3),
@@ -37,7 +51,8 @@ class _SplashPageState extends State<SplashPage>
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => token == null ? LoginPage() : MainPage()),
+                builder: (context) =>
+                    token == null ? WeChatLoginPage() : MainPage()),
             (route) => false);
       }
     });
