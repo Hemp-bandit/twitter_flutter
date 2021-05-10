@@ -1,19 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:weita_app/pages/mine_page.dart';
-
-// widgets
-import 'package:weita_app/widgets/progress_indicator_widget.dart';
-import 'package:weita_app/widgets/post_content_widget.dart';
-import 'package:weita_app/widgets/SearchBarDelegate.dart';
-import 'package:weita_app/widgets/home/card_page.dart';
-
 // utils
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/widgets/SearchBarDelegate.dart';
 import 'package:weita_app/widgets/home/card_page.dart';
-// widgets
-import 'package:weita_app/widgets/progress_indicator_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override

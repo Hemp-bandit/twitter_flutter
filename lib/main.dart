@@ -2,10 +2,8 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-10 10:53:44
+ * @LastEditTime: 2021-05-10 10:55:16
  */
-// catcher
-import 'package:catcher/catcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:weita_app/pages/splash_page.dart';

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weita_app/pages/login_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/utils/shared_preference_helper.dart' as SharedHelper;
-import 'package:weita_app/pages/login_page.dart';
 
 class SettingPage extends StatefulWidget {
   @override

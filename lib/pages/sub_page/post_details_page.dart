@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weita_app/models/comment_model.dart';
+import 'package:weita_app/models/item_model.dart';
+import 'package:weita_app/pages/sub_page/user_comment_widget.dart';
+import 'package:weita_app/utils/get_time_interval.dart';
+import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/widgets/imageShowWidget.dart';
 import 'package:weita_app/widgets/post_handle_button_bar.dart';
-import 'package:weita_app/utils/get_time_interval.dart';
-import 'package:weita_app/models/item_model.dart';
-import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/widgets/progress_indicator_widget.dart';
-import 'package:weita_app/pages/sub_page/user_comment_widget.dart';
-import 'package:weita_app/utils/save_user_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class PostDetailsPage extends StatefulWidget {
   final Items item;
@@ -38,7 +37,6 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     cFuture = HttpHelper.queryCommentById(widget.item.id);
     id = widget.item.id;
     getTheUserId();
@@ -47,7 +45,6 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _commentController.dispose();
   }
@@ -182,7 +179,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                         duration: Duration(seconds: 1)));
                 _commentController.clear();
                 userFocusNode.unfocus();
-                id = widget.item.id;  //将id恢复成twitter帖子id
+                id = widget.item.id; //将id恢复成twitter帖子id
                 setState(() {
                   cFuture = HttpHelper.queryCommentById(widget.item.id);
                 });

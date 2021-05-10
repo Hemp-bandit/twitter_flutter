@@ -2,13 +2,14 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-04-07 17:07:45
- * @LastEditTime: 2021-05-10 10:54:46
+ * @LastEditTime: 2021-05-10 10:55:06
  */
 import 'package:flutter/material.dart';
 import 'package:weita_app/pages/sub_page/mine_sub/comment_page.dart';
 import 'package:weita_app/pages/sub_page/mine_sub/favorite_page.dart';
 import 'package:weita_app/pages/sub_page/mine_sub/subscribe_page.dart';
 import 'package:weita_app/widgets/mine/user_tab.dart';
+import 'package:weita_app/widgets/mine/user_tile.dart';
 
 class MinePage extends StatefulWidget {
   @override
