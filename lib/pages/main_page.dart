@@ -1,6 +1,11 @@
+/*
+ * @LastEditors: wyswill
+ * @Description: 
+ * @Date: 2021-05-10 10:52:41
+ * @LastEditTime: 2021-05-10 11:11:14
+ */
 import 'package:flutter/material.dart';
 import 'package:weita_app/pages/category_page.dart';
-// controller
 import 'package:weita_app/pages/home_page.dart';
 import 'package:weita_app/pages/mine_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
@@ -18,7 +23,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pageController = PageController(initialPage: _currentIndex);
   }
@@ -30,7 +34,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _pageController.dispose();
   }

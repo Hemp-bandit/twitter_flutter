@@ -2,7 +2,7 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-04-07 17:07:45
- * @LastEditTime: 2021-05-10 10:55:06
+ * @LastEditTime: 2021-05-10 11:10:53
  */
 import 'package:flutter/material.dart';
 import 'package:weita_app/pages/sub_page/mine_sub/comment_page.dart';
@@ -21,14 +21,12 @@ class _MinePageState extends State<MinePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pageController = PageController();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _pageController.dispose();
   }

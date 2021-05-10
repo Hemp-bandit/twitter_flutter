@@ -2,7 +2,7 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-10 10:54:39
+ * @LastEditTime: 2021-05-10 11:06:02
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +32,6 @@ class _SplashPageState extends State<SplashPage>
     fluwx.registerWxApi(
       appId: "wx9dbedbb3bbbf0d38",
       doOnAndroid: true,
-      // doOnIOS: true,
     );
 
     _controller = AnimationController(
@@ -62,7 +61,6 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _controller.dispose();
     // 关闭的时候将屏幕设置成原来的状态
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
