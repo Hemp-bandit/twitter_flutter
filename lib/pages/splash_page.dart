@@ -2,16 +2,16 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-14 17:04:22
+ * @LastEditTime: 2021-05-17 10:18:42
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:weita_app/pages/login_page.dart';
+import 'package:weita_app/pages/main_page.dart';
 import 'package:weita_app/pages/wechat_login_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/utils/save_user_data.dart';
-
-import 'main_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -46,13 +46,13 @@ class _SplashPageState extends State<SplashPage>
       token = await SaveUserData.getToken();
       if (status == AnimationStatus.completed) {
         HttpHelper.userToken = token;
-        HttpHelper.loginWithToken(token);
-        print(token);
+        dynamic res = await HttpHelper.loginWithToken(token);
+        if (res == null) token = null;
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    token == null ? WeChatLoginPage() : WeChatLoginPage()),
+                    token == null ? LoginPage() : MainPage()),
             (route) => false);
       }
     });

@@ -34,6 +34,7 @@ class SaveUserData {
       focus.add(element.toString());
     });
     token = data['token'];
+    print('login token $token ');
     await sharedPreferences.setString('id', id);
     await sharedPreferences.setString('avatar', avatar);
     await sharedPreferences.setString('phone', phone);

@@ -251,8 +251,7 @@ class HttpHelper {
       if (response.statusCode == 201) {
         return response.data;
       } else {
-        print(response.statusCode);
-        throw Exception("StatusCode: ${response.statusCode}");
+        return null;
       }
     } catch (e) {
       print(e);

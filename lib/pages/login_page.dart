@@ -1,11 +1,10 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:weita_app/pages/register_page.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:weita_app/pages/main_page.dart';
+import 'package:weita_app/pages/register_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/utils/save_user_data.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
-import 'dart:async';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,7 +20,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     phoneController.dispose();
     codeController.dispose();
@@ -41,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: phoneController,
               decoration: InputDecoration(
-                hintText: "用户名",
+                hintText: "手机号",
                 prefixIcon: Icon(
                   Icons.phone_android,
                   size: 20.0,
@@ -125,8 +123,10 @@ class _LoginPageState extends State<LoginPage> {
             // 登录
             ElevatedButton(
               onPressed: () {
-                if (phoneController.text.isEmpty || codeController.text.isEmpty) {
-                  EasyLoading.showToast('手机号或验证码不能为空', duration: Duration(seconds: 1));
+                if (phoneController.text.isEmpty ||
+                    codeController.text.isEmpty) {
+                  EasyLoading.showToast('手机号或验证码不能为空',
+                      duration: Duration(seconds: 1));
                 } else {
                   HttpHelper.login(phoneController.text, codeController.text)
                       .then((value) {
@@ -135,10 +135,12 @@ class _LoginPageState extends State<LoginPage> {
                       // HttpHelper.initToken(false, value['data']['token']);
                       HttpHelper.userToken = value['data']['token'];
                       print("userToken = ${HttpHelper.userToken}");
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => MainPage()),
-                              (route) => false);
+                      new Future.delayed(Duration(seconds: 1), () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => MainPage()),
+                            (route) => false);
+                      });
                     } else {
                       EasyLoading.showToast(value['msg'],
                           duration: Duration(seconds: 1));
