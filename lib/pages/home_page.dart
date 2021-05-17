@@ -21,12 +21,6 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-
-    HttpHelper.initToken(true, "");
-    // uFuture = HttpHelper.getItemCategory();
-    // uFuture.then((value) => _tabController =
-    //     TabController(initialIndex: 0, length: value.length, vsync: this));
-    // _tabController = TabController(initialIndex: 0, length: 11, vsync: this);
     _pageController = PageController(initialPage: 0);
   }
 
@@ -44,7 +38,15 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Center(child: Text("WEITA", style: TextStyle(color: Color(0xFF227CFA), fontSize: 17.0, fontWeight: FontWeight.bold),),),
+        leading: Center(
+          child: Text(
+            "WEITA",
+            style: TextStyle(
+                color: Color(0xFF227CFA),
+                fontSize: 17.0,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
         title: GestureDetector(
           child: Center(
             child: Container(
@@ -55,7 +57,14 @@ class _HomePageState extends State<HomePage>
                 borderRadius: BorderRadius.circular(20.0),
               ),
               padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Align(alignment: Alignment.centerLeft, child: Text("搜索", style: TextStyle().copyWith(fontSize: 16.0, color: Colors.grey),),),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "搜索",
+                  style:
+                      TextStyle().copyWith(fontSize: 16.0, color: Colors.grey),
+                ),
+              ),
             ),
           ),
           onTap: () {
@@ -65,7 +74,8 @@ class _HomePageState extends State<HomePage>
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>  MinePage()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MinePage()));
             },
             icon: Icon(
               Icons.menu,
@@ -130,8 +140,8 @@ class _HomePageState extends State<HomePage>
         ),
         tabs: data.keys
             .map((e) => Tab(
-          text: data[e],
-        ))
+                  text: data[e],
+                ))
             .toList(),
         onTap: (tab) {
           setState(() {
@@ -150,13 +160,13 @@ class _HomePageState extends State<HomePage>
       children: data.keys
           .map(
             (e) => Column(
-          children: [
-            Expanded(
-              child: CardPage(e),
+              children: [
+                Expanded(
+                  child: CardPage(e),
+                ),
+              ],
             ),
-          ],
-        ),
-      )
+          )
           .toList(),
       onPageChanged: (position) {
         _currentIndex = position;

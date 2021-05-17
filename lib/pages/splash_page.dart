@@ -2,7 +2,7 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-10 11:06:02
+ * @LastEditTime: 2021-05-14 17:04:22
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,11 +47,12 @@ class _SplashPageState extends State<SplashPage>
       if (status == AnimationStatus.completed) {
         HttpHelper.userToken = token;
         HttpHelper.loginWithToken(token);
+        print(token);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    token == null ? WeChatLoginPage() : MainPage()),
+                    token == null ? WeChatLoginPage() : WeChatLoginPage()),
             (route) => false);
       }
     });

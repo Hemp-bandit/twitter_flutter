@@ -1,3 +1,9 @@
+/*
+ * @LastEditors: wyswill
+ * @Description: 
+ * @Date: 2021-05-10 10:52:41
+ * @LastEditTime: 2021-05-14 16:23:43
+ */
 import 'package:flutter/material.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/widgets/post_content_widget.dart';
@@ -19,10 +25,7 @@ class _CardPageState extends State<CardPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // dataSource = List();
-    // initTheDataSource();
     print("userTokenAgain = ${HttpHelper.userToken}");
     mFuture = HttpHelper.getItemListByCategory(page, widget.categoryKey);
   }
@@ -60,7 +63,8 @@ class _CardPageState extends State<CardPage> {
       itemBuilder: (context, index) {
         return Card(
           margin: EdgeInsets.all(15.0),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           child: PostContentWidget(
             dataSource[index],
           ),

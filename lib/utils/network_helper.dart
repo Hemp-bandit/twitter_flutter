@@ -9,10 +9,8 @@ import 'package:weita_app/utils/save_user_data.dart';
 class HttpHelper {
   static HttpHelper instance;
   static String userToken;
-  static Dio _dio;
-  Options _options;
+  static Dio _dio = Dio(BaseOptions(baseUrl: host, sendTimeout: 5000));
   static const String host = "http://weita.online/tapi";
-
 //  header
   static Map<String, dynamic> header = {'token': userToken};
 
@@ -28,7 +26,8 @@ class HttpHelper {
 //  通过 code 获取 access_token
   static Future getAccessTokenByCode(String code) async {
     try {
-      Response response = await Dio().get('https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx9dbedbb3bbbf0d38&secret=7d620d4c9cfd5db8a3d93ea7becabcc2&code=$code&grant_type=authorization_code');
+      Response response = await Dio().get(
+          'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx9dbedbb3bbbf0d38&secret=7d620d4c9cfd5db8a3d93ea7becabcc2&code=$code&grant_type=authorization_code');
       if (response.statusCode == 200) {
         print(response.data);
         return json.decode(response.data);
@@ -40,11 +39,12 @@ class HttpHelper {
       return null;
     }
   }
-  
+
 //  进行refresh_token
   static Future refreshToken(String refreshToken) async {
     try {
-      Response response = await Dio().get('https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=wx9dbedbb3bbbf0d38&grant_type=refresh_token&refresh_token=$refreshToken');
+      Response response = await Dio().get(
+          'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=wx9dbedbb3bbbf0d38&grant_type=refresh_token&refresh_token=$refreshToken');
     } catch (e) {
       print(e);
       return null;
@@ -244,8 +244,8 @@ class HttpHelper {
 //  通过token登录
   static Future loginWithToken(String token) async {
     try {
-      Response response = await Dio()
-          .post("$host/user/loginWithToken", options: Options(headers: header));
+      Response response = await HttpHelper._dio
+          .post("/user/loginWithToken", options: Options(headers: header));
       print(response.data);
 
       if (response.statusCode == 201) {
@@ -280,7 +280,8 @@ class HttpHelper {
   }
 
 //  发送评论
-  static Future commentTwee(String id, String content, String userId, String commentId) async {
+  static Future commentTwee(
+      String id, String content, String userId, String commentId) async {
     try {
       Response response = await Dio().post(
         "$host/twitter/commentTwee",
@@ -308,12 +309,13 @@ class HttpHelper {
 //  获取评论列表
   static Future<List<Comment>> queryCommentById(String id) async {
     try {
-      Response response = await Dio().get("$host/twitter/queryCommentById?id=$id", options: Options(headers: header));
+      Response response = await Dio().get(
+          "$host/twitter/queryCommentById?id=$id",
+          options: Options(headers: header));
       print(response.request.path);
       if (response.statusCode == 200) {
         print("data: ${response.data['data']}");
-          return CommentModel.fromJson(response.data).comments;
-
+        return CommentModel.fromJson(response.data).comments;
       } else {
         print(response.statusCode);
         throw Exception("StatusCode: ${response.statusCode}");
@@ -327,10 +329,12 @@ class HttpHelper {
 //  关注用户
   static Future focusUser(String weUserId, String twitterId) async {
     try {
-      Response response = await Dio().post("$host/user/focusUser", data: {"weUserId" : weUserId, "twitterId" : twitterId}, options: Options(headers: header));
+      Response response = await Dio().post("$host/user/focusUser",
+          data: {"weUserId": weUserId, "twitterId": twitterId},
+          options: Options(headers: header));
       print(response.data);
       return response.data['msg'];
-    }  catch (e) {
+    } catch (e) {
       print(e);
       return null;
     }
@@ -339,7 +343,9 @@ class HttpHelper {
 //  查询关注列表
   static Future queryFocusList(String userId) async {
     try {
-      Response response = await Dio().get("$host/user/queryFocusList?id=$userId", options: Options(headers: header));
+      Response response = await Dio().get(
+          "$host/user/queryFocusList?id=$userId",
+          options: Options(headers: header));
     } catch (e) {
       print(e);
       return null;
@@ -349,7 +355,8 @@ class HttpHelper {
 //  搜索
   static Future search(String text) async {
     try {
-      Response response = await Dio().post("$host/twitter/search", data: {"text" : text}, options: Options(headers: header));
+      Response response = await Dio().post("$host/twitter/search",
+          data: {"text": text}, options: Options(headers: header));
       print(response.data);
     } catch (e) {
       print(e);
@@ -360,7 +367,8 @@ class HttpHelper {
 //  上传用户头像
   static Future updateUserAvatar() async {
     try {
-      Response response = await Dio().post("$host/user/updateUserAvatar", options: Options(headers: header));
+      Response response = await Dio().post("$host/user/updateUserAvatar",
+          options: Options(headers: header));
     } catch (e) {
       print(e);
       return null;
