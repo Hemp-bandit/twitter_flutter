@@ -130,12 +130,14 @@ class _LoginPageState extends State<LoginPage> {
                 } else {
                   HttpHelper.login(phoneController.text, codeController.text)
                       .then((value) {
+                    print('value $value');
                     if (value['msg'] == '') {
-                      SaveUserData.saveUserData(value['data']);
-                      // HttpHelper.initToken(false, value['data']['token']);
-                      HttpHelper.userToken = value['data']['token'];
-                      print("userToken = ${HttpHelper.userToken}");
-                      new Future.delayed(Duration(seconds: 1), () {
+                      new Future.delayed(Duration(seconds: 2), () {
+                        SaveUserData.saveUserData(value['data']);
+                        HttpHelper.initToken(false, value['data']['token']);
+                        HttpHelper.userToken = value['data']['token'];
+                        print("userToken = ${HttpHelper.userToken}");
+
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => MainPage()),

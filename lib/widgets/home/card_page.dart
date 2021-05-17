@@ -2,7 +2,7 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-14 16:23:43
+ * @LastEditTime: 2021-05-17 11:14:20
  */
 import 'package:flutter/material.dart';
 import 'package:weita_app/utils/network_helper.dart';
@@ -27,7 +27,6 @@ class _CardPageState extends State<CardPage> {
   void initState() {
     super.initState();
     print("userTokenAgain = ${HttpHelper.userToken}");
-    mFuture = HttpHelper.getItemListByCategory(page, widget.categoryKey);
   }
 
   Future initTheDataSource() async {
@@ -38,7 +37,7 @@ class _CardPageState extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: mFuture,
+      future: HttpHelper.getItemListByCategory(page, widget.categoryKey),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:

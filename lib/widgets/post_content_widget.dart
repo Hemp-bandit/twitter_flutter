@@ -106,7 +106,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
           ),
         ),
         // 图片显示
-        // imageWidget(widget.item.media_keys),
+        imageWidget(widget.item.media_keys),
         Container(
           width: double.infinity,
           padding: EdgeInsets.only(top: 10.0),

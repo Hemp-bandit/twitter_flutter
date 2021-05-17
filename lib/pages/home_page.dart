@@ -35,59 +35,59 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: Center(
-          child: Text(
-            "WEITA",
-            style: TextStyle(
-                color: Color(0xFF227CFA),
-                fontSize: 17.0,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-        title: GestureDetector(
-          child: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.6,
-              height: 35.0,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "搜索",
-                  style:
-                      TextStyle().copyWith(fontSize: 16.0, color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-          onTap: () {
-            showSearch(context: context, delegate: SearchBarDelegate());
-          },
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MinePage()));
-            },
-            icon: Icon(
-              Icons.menu,
-              color: Color(0xFF227CFA),
-            ),
-          ),
-        ],
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0,
+      //   leading: Center(
+      //     child: Text(
+      //       "WEITA",
+      //       style: TextStyle(
+      //           color: Color(0xFF227CFA),
+      //           fontSize: 17.0,
+      //           fontWeight: FontWeight.bold),
+      //     ),
+      //   ),
+      //   title: GestureDetector(
+      //     child: Center(
+      //       child: Container(
+      //         width: MediaQuery.of(context).size.width * 0.6,
+      //         height: 35.0,
+      //         decoration: BoxDecoration(
+      //           color: Colors.grey[200],
+      //           borderRadius: BorderRadius.circular(20.0),
+      //         ),
+      //         padding: EdgeInsets.only(left: 10.0, right: 10.0),
+      //         child: Align(
+      //           alignment: Alignment.centerLeft,
+      //           child: Text(
+      //             "搜索",
+      //             style:
+      //                 TextStyle().copyWith(fontSize: 16.0, color: Colors.grey),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //     onTap: () {
+      //       showSearch(context: context, delegate: SearchBarDelegate());
+      //     },
+      //   ),
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       Navigator.push(
+        //           context, MaterialPageRoute(builder: (context) => MinePage()));
+        //     },
+        //     icon: Icon(
+        //       Icons.menu,
+        //       color: Color(0xFF227CFA),
+        //     ),
+        //   ),
+        // ],
         // bottom: PreferredSize(
         //   preferredSize: Size.fromHeight(38.0),
         //   child: loadTabBar(),
         // ),
-      ),
+      // ),
       body: Column(
         children: [
           Expanded(

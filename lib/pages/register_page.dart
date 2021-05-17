@@ -16,11 +16,13 @@ class _RegisterPageState extends State<RegisterPage> {
   String _codeCountdownStr = "获取验证码";
   int _countdownNum = 29;
   Timer _timer;
-
   @override
   void dispose() {
     super.dispose();
     _timer.cancel();
+    nameController.dispose();
+    phoneController.dispose();
+    codeController.dispose();
   }
 
   @override
@@ -42,13 +44,13 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       body: Container(
         width: double.infinity,
-        margin: EdgeInsets.all(30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // 用户名
             TextField(
               controller: nameController,
+              maxLength: 10,
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.person,
@@ -68,6 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
             TextField(
               controller: phoneController,
               keyboardType: TextInputType.phone,
+              maxLength: 11,
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.phone_android,
