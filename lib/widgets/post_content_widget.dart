@@ -201,7 +201,6 @@ class _PostContentWidgetState extends State<PostContentWidget> {
               ),
             ),
             onTap: () {
-              // transFuture = HttpHelper.translatePost(widget.item.id);
               setState(() {
                 transFuture = HttpHelper.translatePost(widget.item.id);
                 isShow = !isShow;
@@ -235,7 +234,6 @@ class _PostContentWidgetState extends State<PostContentWidget> {
               if (snapshot.data == null) {
                 return Text("暂无数据");
               } else {
-                // print("data: ${snapshot.data}");
                 return Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(top: 10.0, bottom: 10.0),

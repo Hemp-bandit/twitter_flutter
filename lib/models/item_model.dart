@@ -2,7 +2,7 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-04-07 17:07:45
- * @LastEditTime: 2021-05-26 09:40:17
+ * @LastEditTime: 2021-05-26 14:45:42
  */
 import 'package:weita_app/models/user_info_model.dart';
 
@@ -41,7 +41,7 @@ class Items {
   Map ref_tweet;
   String lang;
   List commentList;
-
+  int zanLen;
   Items(
       {this.id,
       this.text,
@@ -52,11 +52,13 @@ class Items {
       this.media_keys,
       this.userInfo,
       this.ref_tweet,
+      this.zanLen,
       this.lang,
       this.commentList});
 
   Items.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    zanLen = json['zanLen'];
     text = json['text'];
     text_cn = json['text_cn'];
     created = json['created_at'];
@@ -82,6 +84,7 @@ class Items {
     data['ref_tweet'] = this.ref_tweet;
     data['lang'] = this.lang;
     data['commentList'] = this.commentList;
+    data['zanLen'] = this.zanLen;
     return data;
   }
 }
