@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:weita_app/models/item_model.dart';
+import 'package:flutter/material.dart';
 import 'package:weita_app/models/comment_model.dart';
+import 'package:weita_app/models/item_model.dart';
+import 'package:weita_app/pages/login_page.dart';
 import 'package:weita_app/utils/save_user_data.dart';
 
 class HttpHelper {
@@ -87,6 +89,26 @@ class HttpHelper {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  static Future<List<Items>> queryListByRandom() async {
+    try {
+      print(header);
+      Response response = await HttpHelper._dio.get(
+        '$host/twitter/queryListByRandom',
+        options: Options(headers: header),
+      );
+      if (response.statusCode == 200) {
+        print(response.data);
+        return ItemModel.fromJson(response.data).items;
+      } else {
+        print(response.statusCode);
+        throw Exception("StatusCode: ${response.statusCode}");
+      }
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 

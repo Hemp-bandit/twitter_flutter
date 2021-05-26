@@ -1,3 +1,9 @@
+/*
+ * @LastEditors: wyswill
+ * @Description: 
+ * @Date: 2021-04-07 17:07:45
+ * @LastEditTime: 2021-05-26 09:40:17
+ */
 import 'package:weita_app/models/user_info_model.dart';
 
 class ItemModel {
@@ -7,7 +13,7 @@ class ItemModel {
 
   ItemModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      items = List<Items>();
+      items = [];
       json['data']['list'].forEach((v) {
         items.add(Items.fromJson(v));
       });
@@ -23,7 +29,6 @@ class ItemModel {
   }
 }
 
-
 class Items {
   String id;
   String text;
@@ -37,7 +42,18 @@ class Items {
   String lang;
   List commentList;
 
-  Items({this.id, this.text, this.text_cn, this.created, this.type, this.platform, this.media_keys, this.userInfo, this.ref_tweet, this.lang, this.commentList});
+  Items(
+      {this.id,
+      this.text,
+      this.text_cn,
+      this.created,
+      this.type,
+      this.platform,
+      this.media_keys,
+      this.userInfo,
+      this.ref_tweet,
+      this.lang,
+      this.commentList});
 
   Items.fromJson(Map<String, dynamic> json) {
     id = json['id'];

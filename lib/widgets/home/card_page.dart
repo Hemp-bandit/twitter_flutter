@@ -2,16 +2,13 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-17 11:14:20
+ * @LastEditTime: 2021-05-26 14:00:39
  */
 import 'package:flutter/material.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/widgets/post_content_widget.dart';
 
 class CardPage extends StatefulWidget {
-  final String categoryKey;
-  CardPage(this.categoryKey);
-
   @override
   _CardPageState createState() => _CardPageState();
 }
@@ -19,25 +16,11 @@ class CardPage extends StatefulWidget {
 class _CardPageState extends State<CardPage> {
   PageController _pageController = PageController();
   int page = 1;
-  //  数据源list
-  static List dataSource;
   Future mFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    print("userTokenAgain = ${HttpHelper.userToken}");
-  }
-
-  Future initTheDataSource() async {
-    dataSource =
-        await HttpHelper.getItemListByCategory(page, widget.categoryKey);
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: HttpHelper.getItemListByCategory(page, widget.categoryKey),
+      future: HttpHelper.queryListByRandom(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -72,8 +55,7 @@ class _CardPageState extends State<CardPage> {
       onPageChanged: (index) async {
         _pageController.jumpToPage(index);
         if (index <= dataSource.length - 2) {
-          List data = await HttpHelper.getItemListByCategory(
-              page++, widget.categoryKey);
+          List data = await HttpHelper.queryListByRandom();
           setState(() {
             dataSource.addAll(data);
           });

@@ -12,7 +12,6 @@ class SaveUserData {
   static Future<String> getToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final String token = sharedPreferences.getString('token');
-    print(token);
     return token;
   }
 

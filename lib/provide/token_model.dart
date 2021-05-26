@@ -7,7 +7,6 @@ class TokenModel with ChangeNotifier {
   void getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');
-    print("model: $token");
     notifyListeners();
   }
 }
