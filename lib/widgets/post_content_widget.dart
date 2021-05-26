@@ -238,7 +238,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
                   width: double.infinity,
                   margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Text(
-                    widget.item.text_cn == null
+                    widget.item.text_cn == ''
                         ? snapshot.data
                         : widget.item.text_cn,
                     textAlign: TextAlign.left,

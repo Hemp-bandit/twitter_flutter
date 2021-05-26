@@ -158,32 +158,12 @@ class HttpHelper {
     }
   }
 
-//  翻译
-  static Future<String> translate(String text, String language) async {
-    try {
-      Response response = await instance
-          .post("/translate", data: {"text": text, "lang": language});
-
-      if (response.statusCode == 201) {
-        return response.data['data'];
-      } else {
-        throw Exception("StatusCode: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("error");
-      return null;
-    }
-  }
-
 //  翻译帖子
   static Future<String> translatePost(String id) async {
     try {
-      Response response = await instance.get(
-        "/twitter/transTwitterById?id=$id",
-      );
-
-      if (response.statusCode == 200) {
-        // 此处response.data返回的值为Map
+      Response response =
+          await instance.get("/twitter/transTwitterById?id=$id");
+      if (response.data['code'] == 0) {
         return response.data['data']['text_cn'];
       } else {
         throw Exception("StatusCode: ${response.statusCode}");

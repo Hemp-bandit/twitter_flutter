@@ -21,11 +21,6 @@ class PostHandleButtonBar extends StatefulWidget {
 }
 
 class _PostHandleButtonBarState extends State<PostHandleButtonBar> {
-  // Items item;
-  // Future queryPostInfoById() async {
-  //   item = await HttpHelper.queryInfoById(widget.id);
-  // }
-
   @override
   Widget build(BuildContext context) {
     Map buttomMap = {
