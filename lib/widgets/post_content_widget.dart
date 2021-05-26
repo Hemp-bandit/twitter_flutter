@@ -35,10 +35,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(12.0),
-      child: postContent(),
-    );
+    return Container(margin: EdgeInsets.all(12.0), child: postContent());
   }
 
 //  帖子信息
@@ -106,7 +103,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
           ),
         ),
         // 图片显示
-        imageWidget(widget.item.media_keys),
+        // imageWidget(widget.item.media_keys),
         Container(
           width: double.infinity,
           padding: EdgeInsets.only(top: 10.0),

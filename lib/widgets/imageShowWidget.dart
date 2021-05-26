@@ -2,7 +2,7 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-26 09:46:21
+ * @LastEditTime: 2021-05-26 15:32:46
  */
 import 'package:flutter/material.dart';
 import 'package:weita_app/widgets/gallery_photo_view_wrapper.dart';
@@ -18,7 +18,6 @@ Widget imageWidget(List data) {
         item.resource = "http://${data[x]}";
         list.add(item);
       }
-      // print("http://${list[0].resource}");
       return GridView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
