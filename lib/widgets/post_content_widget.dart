@@ -120,18 +120,18 @@ class _PostContentWidgetState extends State<PostContentWidget> {
         // 翻译结果文本
         transTextWidget(isShow, widget.item.lang),
         // 帖子操作
-        // Expanded(
-        //   child: Column(
-        //     mainAxisAlignment: MainAxisAlignment.end,
-        //     children: [
-        //       PostHandleButtonBar(
-        //         id: widget.item.id,
-        //         commentList: widget.item.commentList,
-        //         item: widget.item,
-        //       )
-        //     ],
-        //   ),
-        // ),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              PostHandleButtonBar(
+                id: widget.item.id,
+                commentList: widget.item.commentList,
+                item: widget.item,
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
