@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:weita_app/models/comment_model.dart';
@@ -52,22 +53,6 @@ class HttpHelper {
     }
   }
 
-//  根据类型分页获取数据
-  static Future<ItemModel> getItemListByPage(int page) async {
-    try {
-      Response response = await instance.get("/queryList?size=10&page=$page");
-
-      if (response.statusCode == 200) {
-        return ItemModel.fromJson(response.data);
-      } else {
-        throw Exception("StatusCode: ${response.statusCode}");
-      }
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
 // 根据类型分页获取帖子列表
   static Future<List<Items>> getItemListByCategory(
       int page, String type) async {
@@ -104,22 +89,6 @@ class HttpHelper {
     } catch (e) {
       print(e);
       return [];
-    }
-  }
-
-//  获取分类
-  static Future<Map> getItemCategory() async {
-    try {
-      Response response = await instance.get("/twitter/queryCategory");
-
-      if (response.statusCode == 200) {
-        return response.data['data'];
-      } else {
-        throw Exception("StatusCode: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("error");
-      return null;
     }
   }
 
@@ -301,9 +270,8 @@ class HttpHelper {
 //  获取评论列表
   static Future<List<Comment>> queryCommentById(String id) async {
     try {
-      Response response = await instance.get(
-        "/twitter/queryCommentById?id=$id",
-      );
+      Response response =
+          await instance.get("/twitter/queryCommentById?id=$id");
       print(response.request.path);
       if (response.statusCode == 200) {
         print("data: ${response.data['data']}");
@@ -314,7 +282,7 @@ class HttpHelper {
       }
     } catch (e) {
       print(e);
-      return null;
+      return [];
     }
   }
 
@@ -378,6 +346,18 @@ class HttpHelper {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+// 赞帖子
+  static Future zanPost(String id, String userId, bool isCancel) async {
+    try {
+      Response response = await instance.get('/twitter/zan?id=$id&userId=$userId&isCancel=$isCancel');
+      print(response.request.path);
+      print(response.data);
+      return response;
+    } catch (e) {
+      print(e);
     }
   }
 }

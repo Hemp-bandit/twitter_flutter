@@ -10,24 +10,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  int _currentIndex = 0;
-  TabController _tabController; //TabBar控制器
-  PageController _pageController; //PageView控制器
-
-  Future uFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(initialPage: 0);
-  }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   _tabController.dispose();
-  //   _pageController.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -76,62 +58,6 @@ class _HomePageState extends State<HomePage>
           ),
         ],
       ),
-    );
-  }
-
-  // customTabBar
-  Widget customTabBar(Map data) {
-    return Container(
-      height: 30.0,
-      child: TabBar(
-        controller: _tabController,
-        isScrollable: true,
-        indicatorWeight: 5.0,
-        indicatorColor: Color(0xFF227CFA),
-        unselectedLabelColor: Colors.black54,
-        unselectedLabelStyle: TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.bold,
-        ),
-        labelColor: Colors.black,
-        labelStyle: TextStyle(
-          fontSize: 15.0,
-          fontWeight: FontWeight.bold,
-        ),
-        tabs: data.keys
-            .map((e) => Tab(
-                  text: data[e],
-                ))
-            .toList(),
-        onTap: (tab) {
-          setState(() {
-            _currentIndex = tab;
-            _pageController.jumpToPage(_currentIndex);
-          });
-        },
-      ),
-    );
-  }
-
-  // customPageView
-  Widget customPageView(Map data) {
-    return PageView(
-      controller: _pageController,
-      children: data.keys
-          .map(
-            (e) => Column(
-              children: [
-                Expanded(
-                  child: CardPage(),
-                ),
-              ],
-            ),
-          )
-          .toList(),
-      onPageChanged: (position) {
-        _currentIndex = position;
-        _tabController.index = _currentIndex;
-      },
     );
   }
 }

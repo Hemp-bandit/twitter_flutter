@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weita_app/models/item_model.dart';
 import 'package:weita_app/pages/sub_page/post_details_page.dart';
+import 'package:weita_app/utils/network_helper.dart';
 
 class PostHandleButtonBar extends StatefulWidget {
   final String id;
@@ -21,24 +23,34 @@ class PostHandleButtonBar extends StatefulWidget {
 }
 
 class _PostHandleButtonBarState extends State<PostHandleButtonBar> {
+  // String userId = '';
+  // Future getTheUserId() async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   userId = sharedPreferences.getString('id');
+  // }
+@override
+void initState() { 
+  super.initState();
+  // getTheUserId();
+}
+  bool isCancel = false;
   @override
   Widget build(BuildContext context) {
     Map buttomMap = {
-      "collect": {
-        "icon": Icons.favorite_border,
-        "count": '${widget.item.zanLen}',
-        "action": () {
-          print('favorite');
-        }
-      },
+      // "collect": {
+      //   "icon": Icons.favorite_border,
+      //   "count": '${widget.item.zanLen}',
+      //   "action": () async {
+      //     await HttpHelper.zanPost(widget.id, userId, isCancel);
+      //     setState(() {
+      //       isCancel = !isCancel;
+      //     });
+      //   }
+      // },
       "comment": {
         "icon": Icons.comment,
-        "count": widget.item.commentList == null
-            ? "0"
-            : widget.commentList.length.toString(),
+        "count": "",
         "action": () {
-          print('comment');
-          // showLoginWidget(context);
           if (widget.enableComment == false) {
             print(widget.id);
             Navigator.push(

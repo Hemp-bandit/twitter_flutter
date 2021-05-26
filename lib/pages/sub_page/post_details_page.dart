@@ -20,7 +20,6 @@ class PostDetailsPage extends StatefulWidget {
 
 class _PostDetailsPageState extends State<PostDetailsPage> {
   Future transFuture;
-  Future cFuture;
   bool isShow = false;
   TextEditingController _commentController = TextEditingController();
   FocusNode userFocusNode = FocusNode();
@@ -35,9 +34,14 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
     userId = sharedPreferences.getString('id');
   }
 
+  List<Comment> comments = [];
   @override
   void initState() {
-    cFuture = HttpHelper.queryCommentById(widget.item.id);
+    HttpHelper.queryCommentById(widget.item.id).then((value) {
+      setState(() {
+        comments = value;
+      });
+    });
     id = widget.item.id;
     getTheUserId();
     super.initState();
@@ -63,22 +67,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: FutureBuilder(
-        future: cFuture,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return Center(
-                child: loadingProgressIndicator(),
-              );
-            case ConnectionState.done:
-              return contentWidget(snapshot.data);
-          }
-          return null;
-        },
-      ),
+      body: contentWidget(comments),
       bottomSheet: commentHandleBar(),
     );
   }
@@ -180,8 +169,12 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 _commentController.clear();
                 userFocusNode.unfocus();
                 id = widget.item.id; //将id恢复成twitter帖子id
-                setState(() {
-                  cFuture = HttpHelper.queryCommentById(widget.item.id);
+                Future.delayed(Duration(milliseconds: 200), () {
+                  HttpHelper.queryCommentById(widget.item.id).then((value) {
+                    setState(() {
+                      comments = value;
+                    });
+                  });
                 });
               }
             },
@@ -243,19 +236,14 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
           transActionWidget(),
           // 翻译结果文本
           transTextWidget(isShow, widget.item.lang),
-          // 图片显示
-          imageWidget(widget.item.media_keys),
+          // // 图片显示
+          // imageWidget(widget.item.media_keys),
           //发帖时间
           Text(
             getTheDateTime(widget.item.created),
             style: TextStyle(
               color: Colors.black54,
             ),
-          ),
-          // 帖子操作
-          PostHandleButtonBar(
-            enableComment: true,
-            focusNode: userFocusNode,
           ),
           Divider(
             height: 1.0,
@@ -286,7 +274,6 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
               ),
             ),
             onTap: () {
-              // transFuture = HttpHelper.translatePost(widget.item.id);
               setState(() {
                 transFuture = HttpHelper.translatePost(widget.item.id);
                 isShow = !isShow;
