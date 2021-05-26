@@ -2,7 +2,7 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-26 13:43:36
+ * @LastEditTime: 2021-05-26 14:23:56
  */
 import 'package:flutter/material.dart';
 import 'package:weita_app/pages/home_page.dart';
@@ -16,14 +16,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   String token;
-
-  @override
   Future getTheToken() async {
     token = await SaveUserData.getToken();
-    HttpHelper.userToken = token;
+    HttpHelper.initToken(false, token);
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(

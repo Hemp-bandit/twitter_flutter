@@ -135,8 +135,8 @@ class _LoginPageState extends State<LoginPage> {
                       new Future.delayed(Duration(seconds: 2), () {
                         SaveUserData.saveUserData(value['data']);
                         HttpHelper.initToken(false, value['data']['token']);
-                        HttpHelper.userToken = value['data']['token'];
-                        print("userToken = ${HttpHelper.userToken}");
+                        HttpHelper.initToken(false, value['data']['token']);
+                        print("userToken = ${HttpHelper.getToken()}");
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => MainPage()),

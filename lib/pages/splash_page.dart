@@ -2,7 +2,7 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-26 14:07:19
+ * @LastEditTime: 2021-05-26 14:21:48
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,9 +44,12 @@ class _SplashPageState extends State<SplashPage>
     _animation.addStatusListener((status) async {
       token = await SaveUserData.getToken();
       if (status == AnimationStatus.completed) {
-        HttpHelper.userToken = token;
+        HttpHelper.initToken(false, token);
         dynamic res = await HttpHelper.loginWithToken(token);
-        if (res == null) token = null;
+        if (res == null)
+          token = null;
+        else
+          await HttpHelper.initToken(false, token);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
