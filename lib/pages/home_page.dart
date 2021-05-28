@@ -1,5 +1,10 @@
+/*
+ * @LastEditors: wyswill
+ * @Description: 
+ * @Date: 2021-05-10 10:52:41
+ * @LastEditTime: 2021-05-27 15:32:04
+ */
 import 'package:flutter/material.dart';
-import 'package:weita_app/pages/mine_page.dart';
 import 'package:weita_app/widgets/SearchBarDelegate.dart';
 import 'package:weita_app/widgets/home/card_page.dart';
 
@@ -10,7 +15,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
