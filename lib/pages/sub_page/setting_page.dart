@@ -50,7 +50,6 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -76,19 +75,25 @@ class _SettingPageState extends State<SettingPage> {
               padding: EdgeInsets.all(15.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                    HttpHelper.logOut(HttpHelper.userToken).then((value) => EasyLoading.showToast(value['msg'], duration: Duration(seconds: 1)));
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (context) {
+                    HttpHelper.logOut(HttpHelper.getToken()).then((value) =>
+                        EasyLoading.showToast(value['msg'],
+                            duration: Duration(seconds: 1)));
                     SharedHelper.clear();
                     return LoginPage();
                   }), (route) => false);
                 },
                 child: Text("退出登录"),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.red),
-                  minimumSize: MaterialStateProperty.resolveWith((states) => Size(MediaQuery.of(context).size.width * 3 / 5, 40)),
+                  backgroundColor:
+                      MaterialStateProperty.resolveWith((states) => Colors.red),
+                  minimumSize: MaterialStateProperty.resolveWith((states) =>
+                      Size(MediaQuery.of(context).size.width * 3 / 5, 40)),
                   shape: MaterialStateProperty.resolveWith((states) =>
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.circular(30.0))),
+                          borderRadius:
+                              BorderRadiusDirectional.circular(30.0))),
                   elevation: MaterialStateProperty.resolveWith((states) => 0),
                 ),
               ),

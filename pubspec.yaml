@@ -24,7 +24,9 @@ dependencies:
   share: ^0.6.5+4
   fluwx: ^2.6.2
   provider: ^5.0.0
+  flutter_swiper: ^1.1.6
 
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -32,7 +32,6 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
 
   @override
   void initState() {
-    // TODO: implement initState
     currentIndex = widget.initialIndex;
     super.initState();
   }

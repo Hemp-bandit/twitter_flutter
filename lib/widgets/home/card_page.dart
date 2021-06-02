@@ -2,42 +2,25 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-17 11:14:20
+ * @LastEditTime: 2021-05-26 16:01:27
  */
+
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/widgets/post_content_widget.dart';
 
 class CardPage extends StatefulWidget {
-  final String categoryKey;
-  CardPage(this.categoryKey);
-
   @override
   _CardPageState createState() => _CardPageState();
 }
 
 class _CardPageState extends State<CardPage> {
-  PageController _pageController = PageController();
-  int page = 1;
-  //  数据源list
-  static List dataSource;
-  Future mFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    print("userTokenAgain = ${HttpHelper.userToken}");
-  }
-
-  Future initTheDataSource() async {
-    dataSource =
-        await HttpHelper.getItemListByCategory(page, widget.categoryKey);
-  }
-
+  int fromIndex = 0;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: HttpHelper.getItemListByCategory(page, widget.categoryKey),
+      future: HttpHelper.queryListByRandom(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -55,29 +38,28 @@ class _CardPageState extends State<CardPage> {
   }
 
   Widget contentPageView(List dataSource) {
-    return PageView.builder(
-      controller: _pageController,
+    return Swiper(
       scrollDirection: Axis.vertical,
-      itemCount: dataSource.length,
-      itemBuilder: (context, index) {
+      itemBuilder: (BuildContext context, int index) {
         return Card(
           margin: EdgeInsets.all(15.0),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-          child: PostContentWidget(
-            dataSource[index],
-          ),
+          child: PostContentWidget(dataSource[index]),
         );
       },
-      onPageChanged: (index) async {
-        _pageController.jumpToPage(index);
-        if (index <= dataSource.length - 2) {
-          List data = await HttpHelper.getItemListByCategory(
-              page++, widget.categoryKey);
-          setState(() {
-            dataSource.addAll(data);
-          });
+      itemCount: dataSource.length,
+      loop: true,
+      layout: SwiperLayout.TINDER,
+      itemWidth: MediaQuery.of(context).size.width,
+      itemHeight: MediaQuery.of(context).size.height,
+      onIndexChanged: (index) async {
+        if (index == 4 && fromIndex == 3) {
+          List data = await HttpHelper.queryListByRandom();
+          dataSource = data;
+          setState(() {});
         }
+        fromIndex = index;
       },
     );
   }

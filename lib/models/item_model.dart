@@ -1,3 +1,9 @@
+/*
+ * @LastEditors: wyswill
+ * @Description: 
+ * @Date: 2021-04-07 17:07:45
+ * @LastEditTime: 2021-05-26 14:45:42
+ */
 import 'package:weita_app/models/user_info_model.dart';
 
 class ItemModel {
@@ -7,7 +13,7 @@ class ItemModel {
 
   ItemModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      items = List<Items>();
+      items = [];
       json['data']['list'].forEach((v) {
         items.add(Items.fromJson(v));
       });
@@ -23,7 +29,6 @@ class ItemModel {
   }
 }
 
-
 class Items {
   String id;
   String text;
@@ -36,11 +41,24 @@ class Items {
   Map ref_tweet;
   String lang;
   List commentList;
-
-  Items({this.id, this.text, this.text_cn, this.created, this.type, this.platform, this.media_keys, this.userInfo, this.ref_tweet, this.lang, this.commentList});
+  int zanLen;
+  Items(
+      {this.id,
+      this.text,
+      this.text_cn,
+      this.created,
+      this.type,
+      this.platform,
+      this.media_keys,
+      this.userInfo,
+      this.ref_tweet,
+      this.zanLen,
+      this.lang,
+      this.commentList});
 
   Items.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    zanLen = json['zanLen'];
     text = json['text'];
     text_cn = json['text_cn'];
     created = json['created_at'];
@@ -66,6 +84,7 @@ class Items {
     data['ref_tweet'] = this.ref_tweet;
     data['lang'] = this.lang;
     data['commentList'] = this.commentList;
+    data['zanLen'] = this.zanLen;
     return data;
   }
 }

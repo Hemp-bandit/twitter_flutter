@@ -2,14 +2,13 @@
  * @LastEditors: wyswill
  * @Description: 
  * @Date: 2021-05-10 10:52:41
- * @LastEditTime: 2021-05-17 10:18:42
+ * @LastEditTime: 2021-05-26 14:21:48
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:weita_app/pages/login_page.dart';
 import 'package:weita_app/pages/main_page.dart';
-import 'package:weita_app/pages/wechat_login_page.dart';
 import 'package:weita_app/utils/network_helper.dart';
 import 'package:weita_app/utils/save_user_data.dart';
 
@@ -45,14 +44,16 @@ class _SplashPageState extends State<SplashPage>
     _animation.addStatusListener((status) async {
       token = await SaveUserData.getToken();
       if (status == AnimationStatus.completed) {
-        HttpHelper.userToken = token;
+        HttpHelper.initToken(false, token);
         dynamic res = await HttpHelper.loginWithToken(token);
-        if (res == null) token = null;
+        if (res == null)
+          token = null;
+        else
+          await HttpHelper.initToken(false, token);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    token == null ? LoginPage() : MainPage()),
+                builder: (context) => token == null ? LoginPage() : MainPage()),
             (route) => false);
       }
     });

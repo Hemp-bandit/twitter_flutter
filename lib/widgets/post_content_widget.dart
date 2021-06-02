@@ -35,10 +35,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(12.0),
-      child: postContent(),
-    );
+    return Container(margin: EdgeInsets.all(12.0), child: postContent());
   }
 
 //  帖子信息
@@ -106,7 +103,7 @@ class _PostContentWidgetState extends State<PostContentWidget> {
           ),
         ),
         // 图片显示
-        imageWidget(widget.item.media_keys),
+        // imageWidget(widget.item.media_keys),
         Container(
           width: double.infinity,
           padding: EdgeInsets.only(top: 10.0),
@@ -120,18 +117,18 @@ class _PostContentWidgetState extends State<PostContentWidget> {
         // 翻译结果文本
         transTextWidget(isShow, widget.item.lang),
         // 帖子操作
-        // Expanded(
-        //   child: Column(
-        //     mainAxisAlignment: MainAxisAlignment.end,
-        //     children: [
-        //       PostHandleButtonBar(
-        //         id: widget.item.id,
-        //         commentList: widget.item.commentList,
-        //         item: widget.item,
-        //       )
-        //     ],
-        //   ),
-        // ),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              PostHandleButtonBar(
+                id: widget.item.id,
+                commentList: widget.item.commentList,
+                item: widget.item,
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -201,7 +198,6 @@ class _PostContentWidgetState extends State<PostContentWidget> {
               ),
             ),
             onTap: () {
-              // transFuture = HttpHelper.translatePost(widget.item.id);
               setState(() {
                 transFuture = HttpHelper.translatePost(widget.item.id);
                 isShow = !isShow;
@@ -235,12 +231,11 @@ class _PostContentWidgetState extends State<PostContentWidget> {
               if (snapshot.data == null) {
                 return Text("暂无数据");
               } else {
-                // print("data: ${snapshot.data}");
                 return Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Text(
-                    widget.item.text_cn == null
+                    widget.item.text_cn == ''
                         ? snapshot.data
                         : widget.item.text_cn,
                     textAlign: TextAlign.left,
